@@ -1,5 +1,6 @@
 *.gem
 *.pyc
+*.sw[a-z]
 *.rbc
 .bundle
 .config
