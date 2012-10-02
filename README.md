@@ -1,5 +1,7 @@
 ![skink ci](https://raw.github.com/heynemann/skink.vnext/master/gh/skink-logo.png) 
 
+[![Build Status](https://secure.travis-ci.org/heynemann/skink.vnext.png)](http://travis-ci.org/heynemann/skink.vnext)
+
 # Introduction
 
 Skink is a continuous integration server that uses virtualization to run the app being built.
