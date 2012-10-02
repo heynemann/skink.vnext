@@ -23,6 +23,8 @@
 import sys
 import argparse
 
+import tornado.httpserver
+
 from skink.version import version
 
 class Server:
@@ -33,13 +35,20 @@ class Server:
 
     def process_arguments(self):
         parser = argparse.ArgumentParser(description='Skink v.%s web interface.' % version)
-        parser.add_argument('-b', '--bind', default='0.0.0.0')
         parser.add_argument('-p', '--port', type=int, default=8888)
+        parser.add_argument('-i', '--instances', type=int, default=0)
+        parser.add_argument('-r', '--healthcheck-response', default="WORKING")
 
         options = parser.parse_args(self.arguments)
 
         self.port = options.port
-        self.bind = options.bind
+        self.instances = options.instances
+        self.healthcheck_response = options.healthcheck_response
+
+    def start(self):
+        self.http_server = tornado.httpserver.HTTPServer(self.application)
+        self.http_server.listen(self.port)
+        self.http_server.start(0)
 
 def main():
     server = Server(args=sys.argv[1:])
