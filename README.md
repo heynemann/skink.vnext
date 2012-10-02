@@ -19,7 +19,7 @@ Installing Skink is very simple, provided you have the necessary requirements:
 
 * Python 2.6 or greater;
 * VirtualBox latest version (considering you are using VirtualBox Provider);
-* Redis (or any other persisting mechanism you choose).
+* Redis.
 
 After having setup these requirements, just install it using pip:
 
