@@ -52,3 +52,29 @@ The workers use a VM Provider, which is a class that complies to [[Skink's Provi
 After selecting your provider, just run as many workers as you feel are needed using:
 
 ``skink-worker --provider="skink.providers.VirtualBoxProvider" --redis-host="localhost" --redis-port=3128``
+
+It's worth noting that each worker will spawn one VM.
+
+## Repository Monitoring
+
+A continuous integration server should be able to react to changes in 
+the repositories as fast as possible.
+
+Towards that goal, Skink provides an endpoint at ``http://<skink server>/<project name>/build ``
+which will put a build job to the specified project in the build queue.
+
+The first worker that gets the job will build the project. This mechanism works pretty well
+if your git server supports hooks and if your skink server is accessible to the git server.
+
+Since we know not all scenarios allow that, Skink allows users to specify a repository monitor
+that keeps checking repositories for new commits.
+
+Given the most common scenario is polling repositories for changes, Skink comes with a bundled
+PollingMonitor that will keep polling the registered repositories for anything new and triggering a new
+build in the event of a change.
+
+Running a Repository Monitor is as simple as:
+
+``skink-monitor --monitor="skink.monitors.PollingMonitor" --interval=60 --redis-host="localhost" --redis-port=3128``
+
+This will poll all repositories every minute and report to redis if any of them needs building.
