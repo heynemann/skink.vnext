@@ -34,15 +34,16 @@ class ServerTestCase(unittest.TestCase):
 
 
 class ServerStartTestCase(AsyncHTTPTestCase):
-
-    def get_http_server(self):
+    def setUp(self):
         self.server = Server(['--port=8889', '--instances=1'])
         self.server.start()
-        return self.server.http_server
+        super(ServerStartTestCase, self).setUp()
+
+    def get_app(self):
+        return self.server.application
 
     def test_healthcheck(self):
-        client = AsyncHTTPClient(self.io_loop)
-        client.fetch("http://localhost:8889/healtcheck", self.handle_fetch)
-        result = self.wait()
-        assert result == 'WORKING'
+        result = self.fetch("/healthcheck")
+        assert result.code == 200
+        assert result.body == 'WORKING'
 
