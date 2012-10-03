@@ -1,5 +1,5 @@
 test:
-	@nosetests --with-yanc -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
+	@nosetests -vv --pdb --pdb-failures --with-yanc -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
 
 ci-test:
 	@nosetests -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
