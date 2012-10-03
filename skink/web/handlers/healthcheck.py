@@ -22,7 +22,7 @@
 
 import tornado.web
 
+
 class HealthCheckHandler(tornado.web.RequestHandler):
     def get(self):
         self.write(self.application.healthcheck_response)
-

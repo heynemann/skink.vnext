@@ -29,6 +29,7 @@ import tornado.httpserver
 from skink.version import version
 from skink.web.application import Application
 
+
 class Server:
     def __init__(self, args=[]):
         self.arguments = args
@@ -36,7 +37,8 @@ class Server:
         self.process_arguments()
 
     def process_arguments(self):
-        parser = argparse.ArgumentParser(description='Skink v.%s web interface.' % version)
+        description = 'Skink v.%s web interface.' % version
+        parser = argparse.ArgumentParser(description=description)
         parser.add_argument('-b', '--bind', default='127.0.0.1')
         parser.add_argument('-p', '--port', type=int, default=8888)
         parser.add_argument('-i', '--instances', type=int, default=0)
@@ -49,12 +51,15 @@ class Server:
         self.instances = options.instances
         self.healthcheck_response = options.healthcheck_response
 
-        self.application = Application(healthcheck_response=self.healthcheck_response)
+        self.application = Application(
+            healthcheck_response=self.healthcheck_response
+        )
 
     def start(self):
         self.http_server = tornado.httpserver.HTTPServer(self.application)
         self.http_server.bind(self.port, self.bind)
         self.http_server.start(self.instances)
+
 
 def main():
     server = Server(args=sys.argv[1:])

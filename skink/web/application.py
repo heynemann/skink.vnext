@@ -24,6 +24,7 @@ from tornado.web import Application as TornadoApplication
 
 from skink.web.handlers import HealthCheckHandler
 
+
 class Application(TornadoApplication):
     def __init__(self, healthcheck_response='WORKING'):
         super(Application, self).__init__(self.routes)

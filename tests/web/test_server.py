@@ -4,15 +4,18 @@
 import unittest
 
 from tornado.testing import AsyncHTTPTestCase
-from tornado.httpclient import AsyncHTTPClient
 
 from skink.web.server import Server
+
 
 class ServerTestCase(unittest.TestCase):
 
     def test_server_instance(self):
         server = Server()
-        assert isinstance(server, Server), "Should have returned a server instance"
+        assert isinstance(
+            server,
+            Server
+        ), "Should have returned a server instance"
 
     def test_server_has_defaults(self):
         server = Server()
@@ -46,4 +49,3 @@ class ServerStartTestCase(AsyncHTTPTestCase):
         result = self.fetch("/healthcheck")
         assert result.code == 200
         assert result.body == 'WORKING'
-
