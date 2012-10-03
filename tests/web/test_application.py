@@ -4,18 +4,16 @@
 from tornado.testing import AsyncHTTPTestCase
 from tornado.httpclient import AsyncHTTPClient
 
-from skink.web.server import Server
 from skink.web.application import Application
+from skink.web.handlers import HealthCheckHandler
 
 class ApplicationTestCase(AsyncHTTPTestCase):
-    def setUp(self):
-        self.server = Server(['--port=8889', '--instances=1'])
-        self.server.start()
-        self.application = self.server.application
-        super(ApplicationTestCase, self).setUp()
-
     def get_app(self):
-        return self.server.application
+        self.application = Application()
+        return self.application
 
-    def should_be_proper_application(self):
+    def test_proper_application(self):
         assert isinstance(self.application, Application)
+
+    def test_has_proper_routes(self):
+        assert (r"/healthcheck/?", HealthCheckHandler) in self.application.routes
