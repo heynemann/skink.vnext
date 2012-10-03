@@ -3,3 +3,6 @@ test:
 
 deps:
 	@pip install -r python_requirements.txt
+
+pep8:
+	@find . -name '*.py' | xargs autopep8 -i
