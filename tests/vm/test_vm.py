@@ -9,7 +9,7 @@ class VmManagerTestCase(unittest.TestCase):
         self.manager = VmManager()
 
     def test_vm_manager_start(self):
-        self.manager.start()
+        self.assertRaises(NotImplementedError, self.manager.start)
 
     def test_vm_managet_stop(self):
-        self.manager.stop()
+        self.assertRaises(NotImplementedError, self.manager.stop)

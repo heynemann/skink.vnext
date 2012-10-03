@@ -1,7 +1,7 @@
 class VmManager(object):
 
     def start(self):
-        pass
+        raise NotImplementedError()
 
     def stop(self):
-        pass
+        raise NotImplementedError()
