@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from tornado.testing import AsyncHTTPTestCase
-from tornado.httpclient import AsyncHTTPClient
 
 from skink.web.application import Application
 from skink.web.handlers import HealthCheckHandler
