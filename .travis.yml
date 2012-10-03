@@ -12,7 +12,7 @@ install:
 
     - sudo aptitude update
     - sudo aptitude install -y virtualbox-4.2
-    - cd /tmp && wget http://download.virtualbox.org/virtualbox/4.2.0/Oracle_VM_VirtualBox_Extension_Pack-4.2.0-80737.vbox-extpack && sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-4.2.0-80737.vbox-extpack
+    - wget http://download.virtualbox.org/virtualbox/4.2.0/Oracle_VM_VirtualBox_Extension_Pack-4.2.0-80737.vbox-extpack && sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-4.2.0-80737.vbox-extpack && rm Oracle_VM_VirtualBox_Extension_Pack-4.2.0-80737.vbox-extpack
     - sudo adduser `whoami` vboxusers
 
     - VBoxManage --help
