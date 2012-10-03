@@ -9,7 +9,7 @@ from skink.web.application import Application
 
 class ApplicationTestCase(AsyncHTTPTestCase):
     def setUp(self):
-        self.server = Server(['--port=8889', '--instances=1'])
+        self.server = Server(['--instances=1', '--healthcheck-response=testhealth'])
         self.server.start()
         self.application = self.server.application
         super(ApplicationTestCase, self).setUp()
@@ -17,5 +17,8 @@ class ApplicationTestCase(AsyncHTTPTestCase):
     def get_app(self):
         return self.server.application
 
-    def should_be_proper_application(self):
-        assert isinstance(self.application, Application)
+    def test_healthcheck(self):
+        result = self.fetch("/healthcheck")
+        assert result.code == 200
+        assert result.body == 'testhealth'
+
