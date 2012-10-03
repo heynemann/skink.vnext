@@ -15,5 +15,5 @@ class ApplicationTestCase(AsyncHTTPTestCase):
     def test_proper_application(self):
         assert isinstance(self.application, Application)
 
-    def test_has_proper_routes(self):
+    def test_has_healthcheck_route(self):
         assert (r"/healthcheck/?", HealthCheckHandler) in self.application.routes
