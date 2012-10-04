@@ -48,6 +48,10 @@ class ServerTestCase(unittest.TestCase):
         server = Server(['--github-secret=testsecret'])
         assert server.application.github_secret == 'testsecret'
 
+    def test_if_debug_mode_instances_equal_one(self):
+        server = Server(['--debug'])
+        assert server.instances == 1
+
 
 class ServerStartTestCase(AsyncHTTPTestCase):
     def setUp(self):

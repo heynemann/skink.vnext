@@ -44,8 +44,7 @@ class Application(TornadoApplication):
     @property
     def default_settings(self):
         return {
-            "cookie_secret":"61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
-            "login_url":"/login",
+            "cookie_secret": "61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+            "login_url": "/login",
             "debug": self.debug,
         }
-
