@@ -22,12 +22,14 @@
 
 import sys
 import argparse
+import logging
 
 import tornado.ioloop
 import tornado.httpserver
 
 from skink.version import version
 from skink.web.application import Application
+
 
 class Server:
     def __init__(self, args=[]):
@@ -36,11 +38,23 @@ class Server:
         self.process_arguments()
 
     def process_arguments(self):
-        parser = argparse.ArgumentParser(description='Skink v.%s web interface.' % version)
+        description = 'Skink v.%s web interface.' % version
+        parser = argparse.ArgumentParser(description=description)
         parser.add_argument('-b', '--bind', default='127.0.0.1')
         parser.add_argument('-p', '--port', type=int, default=8888)
         parser.add_argument('-i', '--instances', type=int, default=0)
         parser.add_argument('-r', '--healthcheck-response', default="WORKING")
+
+        parser.add_argument('-d',
+                            '--debug',
+                            action="store_true",
+                            default=False
+                            )
+
+        parser.add_argument('-v', '--verbose', action='count', default=0)
+        parser.add_argument('--github-client-id', default="165b0d755a7432301dd4")
+        parser.add_argument('--github-secret', default="15c3838dc34bb63efa152e96f40bbfea8c8b49c6")
+        parser.add_argument('--github-redirect-url', default="http://localhost:8888/auth/github")
 
         options = parser.parse_args(self.arguments)
 
@@ -48,13 +62,35 @@ class Server:
         self.port = options.port
         self.instances = options.instances
         self.healthcheck_response = options.healthcheck_response
+        self.debug = options.debug
 
-        self.application = Application(healthcheck_response=self.healthcheck_response)
+        if self.debug:
+            self.instances = 1
+
+        if options.verbose == 0:
+            self.log_level = 'warning'
+        elif options.verbose == 1:
+            self.log_level = 'info'
+        else:
+            self.log_level = 'debug'
+
+        logging.basicConfig(level=getattr(logging, self.log_level.upper()))
+
+        self.application = Application(
+            healthcheck_response=self.healthcheck_response,
+            debug=self.debug,
+            github_client_id=options.github_client_id,
+            github_secret=options.github_secret,
+            github_redirect_url=options.github_redirect_url
+        )
 
     def start(self):
+        msg = 'skink-web started at http://%s:%s' % (self.bind, self.port)
+        logging.info(msg)
         self.http_server = tornado.httpserver.HTTPServer(self.application)
         self.http_server.bind(self.port, self.bind)
         self.http_server.start(self.instances)
+
 
 def main():
     server = Server(args=sys.argv[1:])

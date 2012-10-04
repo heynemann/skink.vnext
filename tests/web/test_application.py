@@ -2,23 +2,38 @@
 # -*- coding: utf-8 -*-
 
 from tornado.testing import AsyncHTTPTestCase
-from tornado.httpclient import AsyncHTTPClient
 
-from skink.web.server import Server
 from skink.web.application import Application
+from skink.web.handlers import HealthCheckHandler, IndexHandler
+
 
 class ApplicationTestCase(AsyncHTTPTestCase):
-    def setUp(self):
-        self.server = Server(['--port=8889', '--instances=1'])
-        self.server.start()
-        self.application = self.server.application
-        super(ApplicationTestCase, self).setUp()
-
     def get_app(self):
-        return self.server.application
+        self.application = Application()
+        return self.application
 
-    def get_http_server(self):
-        return self.server.http_server
-
-    def should_be_proper_application(self):
+    def test_proper_application(self):
         assert isinstance(self.application, Application)
+
+    def test_default_github_info(self):
+        assert self.application.github_client_id is None
+        assert self.application.github_secret is None
+        assert self.application.github_redirect_url == 'http://localhost:8888/auth/github'
+
+    def test_has_default_settings(self):
+        assert self.application.default_settings['login_url'] == '/auth/github'
+        assert not self.application.default_settings['debug']
+        cookie_secret = self.application.default_settings['cookie_secret']
+        assert cookie_secret == '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo='
+
+    def test_has_healthcheck_route(self):
+        assert (
+            r"/healthcheck/?",
+            HealthCheckHandler
+        ) in self.application.routes
+
+    def test_has_index_route(self):
+        assert (
+            r"/?",
+            IndexHandler
+        ) in self.application.routes

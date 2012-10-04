@@ -22,12 +22,32 @@
 
 from tornado.web import Application as TornadoApplication
 
-from skink.web.handlers import HealthCheckHandler
+from skink.web.handlers import HealthCheckHandler, IndexHandler, LoginHandler, LogoffHandler
+
 
 class Application(TornadoApplication):
-    def __init__(self, healthcheck_response):
-        super(Application, self).__init__([
-            (r"/healthcheck/?", HealthCheckHandler),
-        ])
-
+    def __init__(self, debug=False, healthcheck_response='WORKING', github_client_id=None, github_secret=None, github_redirect_url='http://localhost:8888/auth/github'):
         self.healthcheck_response = healthcheck_response
+        self.debug = debug
+        self.github_client_id = github_client_id
+        self.github_secret = github_secret
+        self.github_redirect_url = github_redirect_url
+
+        super(Application, self).__init__(self.routes, **self.default_settings)
+
+    @property
+    def routes(self):
+        return [
+            (r"/healthcheck/?", HealthCheckHandler),
+            (r"/?", IndexHandler),
+            (r"/auth/github/?", LoginHandler),
+            (r"/auth/logoff/?", LogoffHandler),
+        ]
+
+    @property
+    def default_settings(self):
+        return {
+            "cookie_secret": "61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+            "login_url": "/auth/github",
+            "debug": self.debug,
+        }

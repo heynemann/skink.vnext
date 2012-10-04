@@ -20,7 +20,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from skink.web.handlers.healthcheck import HealthCheckHandler
-from skink.web.handlers.index import IndexHandler
-from skink.web.handlers.login import LoginHandler, LogoffHandler
+from skink.web.handlers.base import BaseHandler
 
+
+class IndexHandler(BaseHandler):
+    def get(self):
+        self.render('../templates/index.html')

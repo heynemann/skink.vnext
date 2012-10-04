@@ -4,21 +4,25 @@
 import unittest
 
 from tornado.testing import AsyncHTTPTestCase
-from tornado.httpclient import AsyncHTTPClient
 
 from skink.web.server import Server
+
 
 class ServerTestCase(unittest.TestCase):
 
     def test_server_instance(self):
         server = Server()
-        assert isinstance(server, Server), "Should have returned a server instance"
+        assert isinstance(
+            server,
+            Server
+        ), "Should have returned a server instance"
 
     def test_server_has_defaults(self):
         server = Server()
         assert server.port == 8888
         assert server.instances == 0
         assert server.healthcheck_response == 'WORKING'
+        assert not server.debug
 
     def test_should_receive_port(self):
         server = Server(['--port=10'])
@@ -31,6 +35,22 @@ class ServerTestCase(unittest.TestCase):
     def test_should_receive_healthcheck_response(self):
         server = Server(['--healthcheck-response=OK'])
         assert server.healthcheck_response == 'OK'
+
+    def test_should_receive_debug_mode(self):
+        server = Server(['--debug'])
+        assert server.debug
+
+    def test_should_receive_github_client_id(self):
+        server = Server(['--github-client-id=testid'])
+        assert server.application.github_client_id == 'testid'
+
+    def test_should_receive_github_secret(self):
+        server = Server(['--github-secret=testsecret'])
+        assert server.application.github_secret == 'testsecret'
+
+    def test_if_debug_mode_instances_equal_one(self):
+        server = Server(['--debug'])
+        assert server.instances == 1
 
 
 class ServerStartTestCase(AsyncHTTPTestCase):
@@ -46,4 +66,3 @@ class ServerStartTestCase(AsyncHTTPTestCase):
         result = self.fetch("/healthcheck")
         assert result.code == 200
         assert result.body == 'WORKING'
-
