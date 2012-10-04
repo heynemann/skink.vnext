@@ -46,10 +46,10 @@ class Server:
         parser.add_argument('-r', '--healthcheck-response', default="WORKING")
 
         parser.add_argument('-d',
-            '--debug',
-            action="store_true",
-            default=False
-        )
+                            '--debug',
+                            action="store_true",
+                            default=False
+                            )
 
         parser.add_argument('-v', '--verbose', action='count', default=0)
         parser.add_argument('--github-id', default="165b0d755a7432301dd4")
