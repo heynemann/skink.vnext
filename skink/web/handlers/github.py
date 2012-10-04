@@ -30,6 +30,7 @@ import tornado.httputil
 import logging
 
 
+# found it here: http://casbon.me/connecting-to-githubs-oauth2-api-with-tornado
 class GithubMixin(tornado.auth.OAuth2Mixin):
     """
     Github OAuth Mixin, based on FacebookGraphMixin
