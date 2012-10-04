@@ -21,3 +21,4 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from skink.web.handlers.healthcheck import HealthCheckHandler
+from skink.web.handlers.index import IndexHandler
