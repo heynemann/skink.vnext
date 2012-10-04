@@ -52,9 +52,13 @@ class Server:
                             )
 
         parser.add_argument('-v', '--verbose', action='count', default=0)
-        parser.add_argument('--github-client-id', default="165b0d755a7432301dd4")
+        parser.add_argument(
+            '--github-client-id',
+            default="165b0d755a7432301dd4"
+        )
         parser.add_argument('--github-secret', default="15c3838dc34bb63efa152e96f40bbfea8c8b49c6")
-        parser.add_argument('--github-redirect-url', default="http://localhost:8888/auth/github")
+        parser.add_argument('--github-redirect-url',
+                            default="http://localhost:8888/auth/github")
 
         options = parser.parse_args(self.arguments)
 

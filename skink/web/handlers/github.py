@@ -41,13 +41,13 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
     _API_URL = 'https://api.github.com'
 
     def get_authenticated_user(
-        self,
-        redirect_uri, 
-        client_id, 
-        client_secret,
-        code,
-        callback,
-        extra_fields=None):
+            self,
+            redirect_uri,
+            client_id,
+            client_secret,
+            code,
+            callback,
+            extra_fields=None):
         """
         Handles the login for Github, queries /user and returns a user object
         """
@@ -55,10 +55,10 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
         logging.debug('gau ' + redirect_uri)
         http = tornado.httpclient.AsyncHTTPClient()
         args = {
-          "redirect_uri": redirect_uri,
-          "code": code,
-          "client_id": client_id,
-          "client_secret": client_secret,
+            "redirect_uri": redirect_uri,
+            "code": code,
+            "client_id": client_id,
+            "client_secret": client_secret,
         }
 
         oauth_url = self._oauth_request_token_url(**args)
@@ -74,7 +74,7 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
         http.fetch(oauth_url, oauth_callback)
 
     def _on_access_token(self, redirect_uri, client_id, client_secret,
-                        callback, fields, response):
+                         callback, fields, response):
         """ callback for authentication url, if successful get the user details """
 
         if response.error:
@@ -82,7 +82,9 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
             callback(None)
             return
 
-        args = tornado.escape.parse_qs_bytes(tornado.escape.native_str(response.body))
+        args = tornado.escape.parse_qs_bytes(
+            tornado.escape.native_str(response.body)
+        )
 
         if 'error' in args:
             logging.error('oauth error ' + args['error'][-1])
@@ -92,7 +94,12 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
             "access_token": args["access_token"][-1],
         }
 
-        request_callback = self.async_callback(self._on_get_user_info, callback, session)
+        request_callback = self.async_callback(
+            self._on_get_user_info,
+            callback,
+            session
+        )
+
         self.github_request(
             path="/user",
             callback=request_callback,
@@ -116,7 +123,7 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
         })
 
     def github_request(self, path, callback, access_token=None,
-                method='GET', body=None, **args):
+                       method='GET', body=None, **args):
         """ Makes a github API request, hands callback the parsed data """
 
         args["access_token"] = access_token
@@ -128,7 +135,7 @@ class GithubMixin(tornado.auth.OAuth2Mixin):
 
         if body is not None:
             body = tornado.escape.json_encode(body)
-            logging.debug('body is' +  body)
+            logging.debug('body is' + body)
 
         fetch_callback = self.async_callback(self._parse_response, callback)
         http.fetch(url, callback=fetch_callback, method=method, body=body)

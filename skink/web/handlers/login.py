@@ -39,8 +39,8 @@ class LoginHandler(BaseHandler, GithubMixin):
         # we can append next to the redirect uri, so the user gets the
         # correct URL on login
         redirect_uri = tornado.httputil.url_concat(
-            redirect_url, 
-            {'next': '/' }
+            redirect_url,
+            {'next': '/'}
         )
 
         # if we have a code, we have been authorized so we can log in
@@ -87,4 +87,3 @@ class LogoffHandler(BaseHandler):
 
     #def _on_get_gists(self, gists):
         #self.render('gists.jade', gists=gists)
-

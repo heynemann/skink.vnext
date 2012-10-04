@@ -5,7 +5,20 @@ from skink.vm import base
 
 class VmManager(base.VmManager):
     def start(self, name):
-        subprocess.call(["VBoxManage", "createvm", "--name", name, "--register"])
+        command = [
+            "VBoxManage",
+            "createvm",
+            "--name", 
+            name, 
+            "--register"
+        ]
+        subprocess.call(command)
 
     def stop(self, name):
-        subprocess.call(["VBoxManage", "unregistervm", name, "--delete"])
+        command = [
+            "VBoxManage",
+            "unregistervm",
+            name,
+            "--delete"
+        ]
+        subprocess.call(command)
