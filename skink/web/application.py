@@ -26,9 +26,12 @@ from skink.web.handlers import HealthCheckHandler, IndexHandler
 
 
 class Application(TornadoApplication):
-    def __init__(self, debug=False, healthcheck_response='WORKING'):
+    def __init__(self, debug=False, healthcheck_response='WORKING', github_id=None, github_secret=None):
         self.healthcheck_response = healthcheck_response
         self.debug = debug
+        self.github_id = github_id
+        self.github_secret = github_secret
+
         super(Application, self).__init__(self.routes, **self.default_settings)
 
     @property

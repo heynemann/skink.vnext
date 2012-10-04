@@ -22,6 +22,7 @@
 
 import sys
 import argparse
+import logging
 
 import tornado.ioloop
 import tornado.httpserver
@@ -44,6 +45,9 @@ class Server:
         parser.add_argument('-i', '--instances', type=int, default=0)
         parser.add_argument('-r', '--healthcheck-response', default="WORKING")
         parser.add_argument('-d', '--debug', action="store_true", default=False)
+        parser.add_argument('-v', '--verbose', action='count', default=0)
+        parser.add_argument('--github-id', default="165b0d755a7432301dd4")
+        parser.add_argument('--github-secret', default="15c3838dc34bb63efa152e96f40bbfea8c8b49c6")
 
         options = parser.parse_args(self.arguments)
 
@@ -52,12 +56,19 @@ class Server:
         self.instances = options.instances
         self.healthcheck_response = options.healthcheck_response
         self.debug = options.debug
+        self.log_level = options.verbose == 0 and 'warning' or (options.verbose == 1 and 'info' or 'debug')
+
+        logging.basicConfig(level=getattr(logging, self.log_level.upper()))
 
         self.application = Application(
-            healthcheck_response=self.healthcheck_response
+            healthcheck_response=self.healthcheck_response,
+            debug=self.debug,
+            github_id=options.github_id,
+            github_secret=options.github_secret
         )
 
     def start(self):
+        logging.info('skink-web started at http://%s:%s' % (self.bind, self.port))
         self.http_server = tornado.httpserver.HTTPServer(self.application)
         self.http_server.bind(self.port, self.bind)
         self.http_server.start(self.instances)

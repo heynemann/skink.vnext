@@ -1,6 +1,9 @@
 test:
 	@nosetests -vv --pdb --pdb-failures --with-yanc -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
 
+web:
+	@python skink/web/server.py
+
 ci-test:
 	@nosetests -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
 

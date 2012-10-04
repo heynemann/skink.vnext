@@ -15,6 +15,10 @@ class ApplicationTestCase(AsyncHTTPTestCase):
     def test_proper_application(self):
         assert isinstance(self.application, Application)
 
+    def test_default_github_info(self):
+        assert self.application.github_id is None
+        assert self.application.github_secret is None
+
     def test_has_default_settings(self):
         assert self.application.default_settings['login_url'] == '/login'
         assert not self.application.default_settings['debug']

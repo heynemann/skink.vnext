@@ -40,6 +40,14 @@ class ServerTestCase(unittest.TestCase):
         server = Server(['--debug'])
         assert server.debug
 
+    def test_should_receive_github_id(self):
+        server = Server(['--github-id=testid'])
+        assert server.application.github_id == 'testid'
+
+    def test_should_receive_github_secret(self):
+        server = Server(['--github-secret=testsecret'])
+        assert server.application.github_secret == 'testsecret'
+
 
 class ServerStartTestCase(AsyncHTTPTestCase):
     def setUp(self):
