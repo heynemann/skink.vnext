@@ -23,6 +23,7 @@ class ServerTestCase(unittest.TestCase):
         assert server.instances == 0
         assert server.healthcheck_response == 'WORKING'
         assert not server.debug
+        assert server.log_level == 'warning'
 
     def test_should_receive_port(self):
         server = Server(['--port=10'])
@@ -51,6 +52,14 @@ class ServerTestCase(unittest.TestCase):
     def test_if_debug_mode_instances_equal_one(self):
         server = Server(['--debug'])
         assert server.instances == 1
+
+    def test_verbose_level_1(self):
+        server = Server(['-v'])
+        assert server.log_level == 'info'
+
+    def test_verbose_level_2(self):
+        server = Server(['-vv'])
+        assert server.log_level == 'debug'
 
 
 class ServerStartTestCase(AsyncHTTPTestCase):

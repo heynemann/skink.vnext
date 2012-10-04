@@ -93,8 +93,7 @@ class Server:
 
 
 def main():
-    server = Server(args=sys.argv[1:])
-    server.start()
+    Server(args=sys.argv[1:]).start()
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == '__main__':
