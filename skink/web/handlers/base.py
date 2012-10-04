@@ -20,9 +20,15 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from skink.web.handlers.base import BaseHandler
+import tornado.web
 
+class BaseHandler(tornado.web.RequestHandler):
 
-class IndexHandler(BaseHandler):
-    def get(self):
-        self.render('../templates/index.html')
+    def get_current_user(self):
+        user = self.get_secure_cookie("user")
+
+        if not user:
+            return None
+
+        return tornado.escape.json_decode(user)
+

@@ -40,9 +40,9 @@ class ServerTestCase(unittest.TestCase):
         server = Server(['--debug'])
         assert server.debug
 
-    def test_should_receive_github_id(self):
-        server = Server(['--github-id=testid'])
-        assert server.application.github_id == 'testid'
+    def test_should_receive_github_client_id(self):
+        server = Server(['--github-client-id=testid'])
+        assert server.application.github_client_id == 'testid'
 
     def test_should_receive_github_secret(self):
         server = Server(['--github-secret=testsecret'])

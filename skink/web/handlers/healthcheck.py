@@ -20,9 +20,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import tornado.web
+from skink.web.handlers.base import BaseHandler
 
 
-class HealthCheckHandler(tornado.web.RequestHandler):
+class HealthCheckHandler(BaseHandler):
     def get(self):
         self.write(self.application.healthcheck_response)

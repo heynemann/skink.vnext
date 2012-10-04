@@ -22,3 +22,5 @@
 
 from skink.web.handlers.healthcheck import HealthCheckHandler
 from skink.web.handlers.index import IndexHandler
+from skink.web.handlers.login import LoginHandler, LogoffHandler
+
