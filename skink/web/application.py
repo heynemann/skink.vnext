@@ -26,10 +26,10 @@ from skink.web.handlers import HealthCheckHandler, IndexHandler
 
 
 class Application(TornadoApplication):
-    def __init__(self, healthcheck_response='WORKING'):
-        super(Application, self).__init__(self.routes)
-
+    def __init__(self, debug=False, healthcheck_response='WORKING'):
         self.healthcheck_response = healthcheck_response
+        self.debug = debug
+        super(Application, self).__init__(self.routes, **self.default_settings)
 
     @property
     def routes(self):
@@ -37,3 +37,12 @@ class Application(TornadoApplication):
             (r"/healthcheck/?", HealthCheckHandler),
             (r"/?", IndexHandler),
         ]
+
+    @property
+    def default_settings(self):
+        return {
+            "cookie_secret":"61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+            "login_url":"/login",
+            "debug": self.debug,
+        }
+
