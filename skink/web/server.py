@@ -43,6 +43,7 @@ class Server:
         parser.add_argument('-p', '--port', type=int, default=8888)
         parser.add_argument('-i', '--instances', type=int, default=0)
         parser.add_argument('-r', '--healthcheck-response', default="WORKING")
+        parser.add_argument('-d', '--debug', action="store_true", default=False)
 
         options = parser.parse_args(self.arguments)
 
@@ -50,6 +51,7 @@ class Server:
         self.port = options.port
         self.instances = options.instances
         self.healthcheck_response = options.healthcheck_response
+        self.debug = options.debug
 
         self.application = Application(
             healthcheck_response=self.healthcheck_response

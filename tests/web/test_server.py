@@ -22,6 +22,7 @@ class ServerTestCase(unittest.TestCase):
         assert server.port == 8888
         assert server.instances == 0
         assert server.healthcheck_response == 'WORKING'
+        assert not server.debug
 
     def test_should_receive_port(self):
         server = Server(['--port=10'])
@@ -34,6 +35,10 @@ class ServerTestCase(unittest.TestCase):
     def test_should_receive_healthcheck_response(self):
         server = Server(['--healthcheck-response=OK'])
         assert server.healthcheck_response == 'OK'
+
+    def test_should_receive_debug_mode(self):
+        server = Server(['--debug'])
+        assert server.debug
 
 
 class ServerStartTestCase(AsyncHTTPTestCase):
