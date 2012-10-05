@@ -28,3 +28,6 @@ class VmManager(object):
 
     def destroy(self):
         raise NotImplementedError()
+
+    def list(self):
+        raise NotImplementedError()

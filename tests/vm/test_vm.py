@@ -13,3 +13,6 @@ class VmManagerTestCase(unittest.TestCase):
 
     def test_vm_manager_destroy(self):
         self.assertRaises(NotImplementedError, self.manager.destroy)
+
+    def test_vm_manager_list(self):
+        self.assertRaises(NotImplementedError, self.manager.list)
