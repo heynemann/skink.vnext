@@ -2,17 +2,11 @@ import subprocess
 
 from skink.vm import base
 
+from sh import VBoxManage
 
 class VmManager(base.VmManager):
     def create(self, name):
-        command = [
-            "VBoxManage",
-            "createvm",
-            "--name",
-            name,
-            "--register"
-        ]
-        subprocess.call(command)
+        VBoxManage("createvm", "--name", name, register=True)
 
     def destroy(self, name):
         command = [
