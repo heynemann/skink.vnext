@@ -17,5 +17,5 @@ class VmManagerTestCase(unittest.TestCase):
         vms = sh.VBoxManage("list", "vms")
         self.assertIn("myvm", vms)
         self.manager.destroy("myvm")
-        vms = sh.VBoxManage("list", "vms")
+        vms = self.manager.list()
         self.assertNotIn("myvm", vms)

@@ -9,3 +9,6 @@ class VmManager(base.VmManager):
 
     def destroy(self, name):
         VBoxManage("unregistervm", name, delete=True)
+
+    def list(self):
+        return VBoxManage("list", "vms")
