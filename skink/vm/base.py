@@ -23,8 +23,8 @@
 
 class VmManager(object):
 
-    def start(self):
+    def create(self):
         raise NotImplementedError()
 
-    def stop(self):
+    def destroy(self):
         raise NotImplementedError()

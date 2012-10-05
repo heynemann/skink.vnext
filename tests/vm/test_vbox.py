@@ -6,11 +6,11 @@ from skink.vm.vbox import VmManager
 
 class VmManagerTestCase(unittest.TestCase):
 
-    def test_vm_manager_start_and_stop(self):
+    def test_vm_manager_create_and_destroy(self):
         self.manager = VmManager()
-        self.manager.start("myvm")
+        self.manager.create("myvm")
         vms = subprocess.check_output(["VBoxManage", "list", "vms"])
         self.assertIn("myvm", vms)
-        self.manager.stop("myvm")
+        self.manager.destroy("myvm")
         vms = subprocess.check_output(["VBoxManage", "list", "vms"])
         self.assertNotIn("myvm", vms)
