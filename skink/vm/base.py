@@ -20,14 +20,21 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+from abc import ABCMeta, abstractmethod
+
 
 class VmManager(object):
 
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
     def create(self):
-        raise NotImplementedError()
+        pass
 
+    @abstractmethod
     def destroy(self):
-        raise NotImplementedError()
+        pass
 
+    @abstractmethod
     def list(self):
-        raise NotImplementedError()
+        pass
