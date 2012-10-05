@@ -2,16 +2,17 @@ import unittest
 
 from skink.vm.vbox import VmManager
 
-from sh import VBoxManage
+import sh
 
 
+@unittest.skipIf(not hasattr(sh, "VBoxManage"), "requires VBoxManage")
 class VmManagerTestCase(unittest.TestCase):
 
     def test_vm_manager_create_and_destroy(self):
         self.manager = VmManager()
         self.manager.create("myvm")
-        vms = VBoxManage("list", "vms")
+        vms = sh.VBoxManage("list", "vms")
         self.assertIn("myvm", vms)
         self.manager.destroy("myvm")
-        vms = VBoxManage("list", "vms")
+        vms = sh.VBoxManage("list", "vms")
         self.assertNotIn("myvm", vms)
