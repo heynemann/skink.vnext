@@ -4,4 +4,5 @@ argparse>=1.2.1
 tornado>=2.4.0
 autopep8>=0.8.1
 yanc>=0.2.3
-sh==1.03
+sh>=1.03
+unittest2>=0.5.1
