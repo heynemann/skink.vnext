@@ -7,11 +7,7 @@ from skink.build.parser import Parser
 class ParserTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.path = "qualquer"
-        self.parser = Parser(self.path)
+        self.parser = Parser()
 
     def test_tem_metodo_load(self):
-        assert self.parser.load
-
-    def test_iniciar_parser_com_path(self):
-        self.assertEqual(self.path, self.parser._file_path)
+        assert self.parser.load_from_file

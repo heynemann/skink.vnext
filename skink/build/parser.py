@@ -4,8 +4,5 @@
 
 class Parser(object):
 
-    def __init__(self, file_path):
-        self._file_path = file_path
-
-    def load(self):
+    def load_from_file(self, file_path):
         pass
