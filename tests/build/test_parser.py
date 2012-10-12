@@ -9,5 +9,5 @@ class ParserTestCase(unittest.TestCase):
     def setUp(self):
         self.parser = Parser()
 
-    def test_tem_metodo_load(self):
+    def test_has_load_method(self):
         assert self.parser.load_from_file
