@@ -6,3 +6,4 @@ autopep8>=0.8.1
 yanc>=0.2.3
 sh>=1.03
 unittest2>=0.5.1
+mock
