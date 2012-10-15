@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-import __builtin__
-try:
-        import unittest2 as unittest
-except ImportError, e:
-        import unittest
+import unittest
 
 from mock import patch, ANY
 from contextlib import nested
