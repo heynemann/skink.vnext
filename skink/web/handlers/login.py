@@ -29,6 +29,11 @@ import tornado.httputil
 from skink.web.handlers.base import BaseHandler
 from skink.web.handlers.github import GithubMixin
 
+class NotAuthenticatedHandler(BaseHandler):
+
+    def get(self):
+        self.render('not_authenticated.html')
+ 
 
 class LoginHandler(BaseHandler, GithubMixin):
 

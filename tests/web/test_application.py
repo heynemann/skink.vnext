@@ -21,7 +21,7 @@ class ApplicationTestCase(AsyncHTTPTestCase):
         assert self.application.github_redirect_url == 'http://localhost:8888/auth/github'
 
     def test_has_default_settings(self):
-        assert self.application.default_settings['login_url'] == '/auth/github'
+        assert self.application.default_settings['login_url'] == '/auth/login'
         assert not self.application.default_settings['debug']
         cookie_secret = self.application.default_settings['cookie_secret']
         assert cookie_secret == '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo='

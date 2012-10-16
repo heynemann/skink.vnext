@@ -20,13 +20,23 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import os.path
 from tornado.web import Application as TornadoApplication
 
-from skink.web.handlers import HealthCheckHandler, IndexHandler, LoginHandler, LogoffHandler
+from skink.web.handlers import HealthCheckHandler, IndexHandler, \
+                               LoginHandler, LogoffHandler, \
+                               NotAuthenticatedHandler
 
 
 class Application(TornadoApplication):
-    def __init__(self, debug=False, healthcheck_response='WORKING', github_client_id=None, github_secret=None, github_redirect_url='http://localhost:8888/auth/github'):
+    def __init__(self,
+        debug=False, 
+        healthcheck_response='WORKING', 
+        github_client_id=None, 
+        github_secret=None, 
+        github_redirect_url='http://localhost:8888/auth/github'
+    ):
+
         self.healthcheck_response = healthcheck_response
         self.debug = debug
         self.github_client_id = github_client_id
@@ -40,6 +50,7 @@ class Application(TornadoApplication):
         return [
             (r"/healthcheck/?", HealthCheckHandler),
             (r"/?", IndexHandler),
+            (r"/auth/login/?", NotAuthenticatedHandler),
             (r"/auth/github/?", LoginHandler),
             (r"/auth/logoff/?", LogoffHandler),
         ]
@@ -48,6 +59,8 @@ class Application(TornadoApplication):
     def default_settings(self):
         return {
             "cookie_secret": "61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
-            "login_url": "/auth/github",
+            "login_url": "/auth/login",
             "debug": self.debug,
+            "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+            "static_path": os.path.join(os.path.dirname(__file__), "static"),
         }
