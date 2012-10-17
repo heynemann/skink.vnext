@@ -13,13 +13,13 @@ var options = {
         'skink/web/static/css/style.css'
     ],
 
-    cssOutputPath: 'skink/web/static/css/skink.min.css',
+    cssOutputPath: 'skink/web/static/output/skink.min.css',
 
     jsFiles: [
         'skink/web/static/vendor/jquery-1.8.2.js'
     ],
 
-    jsOutputPath: 'skink/web/static/js/skink.min.js'
+    jsOutputPath: 'skink/web/static/output/skink.min.js'
 };
 
 module.exports = function(grunt) {
@@ -142,7 +142,7 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            files: ['skink/web/static/**/*.scss', 'skink/web/static/**/*.js'],
+            files: ['skink/web/static/css/*.scss', 'skink/web/static/js/*.js'],
             tasks: ['dev']
         }
     });

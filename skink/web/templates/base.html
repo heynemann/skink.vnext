@@ -6,7 +6,7 @@
 
     <title>skink.ci - {% block title %}Home{% end %}</title>
 
-    <link rel="stylesheet" href="{{ static_url("css/skink.min.css") }}" type="text/css" />
+    <link rel="stylesheet" href="{{ static_url("output/skink.min.css") }}" type="text/css" />
     {% block style %}{% end %}
 </head>
 
@@ -17,6 +17,8 @@
         </div>
     </header>
     {% block body %}{% end %}
+
+    <script type="text/javascript" src="{{ static_url("output/skink.min.js") }}"></script>
     {% block scripts %}{% end %}
 </body>
 </html>

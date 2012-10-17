@@ -7,10 +7,13 @@ kill-watch:
 watch: kill-watch
 	@./node_modules/.bin/grunt watch &
 
+dev:
+	@./node_modules/.bin/grunt dev
+
 compile:
 	@./node_modules/.bin/grunt compile
 
-web: watch
+web: dev watch
 	@PYTHONPATH=$(PYTHONPATH):. python skink/web/server.py -d -vv
 
 ci-test:
