@@ -19,3 +19,5 @@ tmp
 _yardoc
 doc/
 .coverage
+.sass-cache
+node_modules
