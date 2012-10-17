@@ -1,0 +1,30 @@
+@import "compass/css3";
+
+$blue: #369dd8;
+$darkgray: #999;
+
+body {
+    font-family: arial;
+    background: url('../img/cardboard_flat.png');
+}
+
+header {
+    height: 130px;
+    background: #fff;
+    border-bottom: solid 2px $blue;
+    overflow: hidden;
+
+    @include box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.4));
+
+    h1 {
+        margin-top: 43px;
+
+        font-family: CartoGothicStdBold;
+        font-size: 60px;
+        color: $darkgray;
+
+        strong {
+            color: $blue;
+        }
+    }
+}

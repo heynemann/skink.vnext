@@ -7,7 +7,10 @@ var run = libc.system;
 
 var options = {
     cssFiles: [
-        'skink/web/static/css/reset.css'
+        'skink/web/static/css/reset.css',
+        'skink/web/static/css/grid.css',
+        'skink/web/static/css/fonts.css',
+        'skink/web/static/css/style.css'
     ],
 
     cssOutputPath: 'skink/web/static/css/skink.min.css',
@@ -44,12 +47,12 @@ module.exports = function(grunt) {
                     "import": true,
                     "adjoining-classes": true,
                     "important": true,
-                    "box-sizing": true,
-                    "box-model": true,
+                    "box-sizing": false,
+                    "box-model": false,
                     "known-properties": true,
                     "duplicate-background-images": true,
                     "compatible-vendor-prefixes": true,
-                    "display-property-grouping": true,
+                    "display-property-grouping": false,
                     "overqualified-elements": true,
                     "fallback-colors": true,
                     "duplicate-properties": true,
@@ -62,7 +65,7 @@ module.exports = function(grunt) {
                     "gradients": true,
                     "floats": true,
                     "outline-none": true,
-                    "qualified-headings": true,
+                    "qualified-headings": false,
                     "regex-selectors": true,
                     "shorthand": true,
                     "text-indent": true,

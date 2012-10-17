@@ -6,11 +6,16 @@
 
     <title>skink.ci - {% block title %}Home{% end %}</title>
 
-    <link rel="stylesheet" href="{{ static_url("css/style.min.css") }}" type="text/css" />
+    <link rel="stylesheet" href="{{ static_url("css/skink.min.css") }}" type="text/css" />
     {% block style %}{% end %}
 </head>
 
 <body>
+    <header>
+        <div class="container_16">
+            <h1><strong>skink</strong>.ci</h1>
+        </div>
+    </header>
     {% block body %}{% end %}
     {% block scripts %}{% end %}
 </body>
