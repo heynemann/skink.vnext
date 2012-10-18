@@ -29,5 +29,10 @@ from skink.models import Project
 class IndexHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
+        all_projects = Project.objects.all()
 
-        self.render('index.html')
+        if not all_projects:
+            self.render('no-projects.html')
+        else:
+            self.render('index.html', projects=all_projects)
+

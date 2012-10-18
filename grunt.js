@@ -8,7 +8,8 @@ var options = {
         'skink/web/static/css/style.css',
         'skink/web/static/css/header.css',
         'skink/web/static/css/footer.css',
-        'skink/web/static/css/unauthenticated.css'
+        'skink/web/static/css/unauthenticated.css',
+        'skink/web/static/css/no-projects.css'
     ],
 
     cssOutputPath: 'skink/web/static/output/skink.min.css',
