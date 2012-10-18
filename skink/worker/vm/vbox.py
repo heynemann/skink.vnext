@@ -26,11 +26,9 @@ from skink.worker.box_types import PythonBoxType
 from sh import VBoxManage
 
 
-class VmManager(base.VmManager):
-
-    def bootstrap(self):
-        for box in available_boxes:
-            box.bootstrap()
+class UbuntuVmManager(base.VmManager):
+    snapshot_url = ''
+    snapshot_path = 'snapshots/ubuntu.snapshot'
 
     def create(self, name):
         VBoxManage("createvm", "--name", name, register=True)
@@ -40,4 +38,16 @@ class VmManager(base.VmManager):
 
     def list(self):
         return VBoxManage("list", "vms")
+
+    def bootstrap(self):
+        super(UbuntuVmManager, self).bootstrap()
+        self.ensure_snapshot_available()
+
+    def ensure_snapshot_available(self):
+        if not self.download_exists(self.snapshot_path):
+            self.download(self.snapshot_url, self.snapshot_path)
+
+if __name__ == '__main__':
+    vm = UbuntuVmManager()
+    vm.bootstrap()
 
