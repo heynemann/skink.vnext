@@ -35,12 +35,18 @@ class BaseHandler(tornado.web.RequestHandler):
 
         return tornado.escape.json_decode(user)
 
+    @property
+    def user_email(self):
+        if not self.current_user:
+            return None
+        return self.current_user['email']
+
     def gravatar_url(self):
         default_user = self.static_url("img/default.png")
         if not self.current_user:
             return 
 
-        email = self.current_user['email']
+        email = self.user_email
         size = 29
 
         # construct the url
