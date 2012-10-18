@@ -1,7 +1,36 @@
-/* line 2, ../scss/no-projects.scss */
+/* line 5, ../scss/no-projects.scss */
 .no-projects a {
-  text-align: center;
   display: block;
-  width: 568px;
-  margin: 0 auto;
+  width: 600px;
+  margin: 60px auto;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'RalewayThin';
+  color: #999;
+}
+/* line 15, ../scss/no-projects.scss */
+.no-projects a .warning {
+  font-size: 52px;
+}
+/* line 18, ../scss/no-projects.scss */
+.no-projects a .warning strong {
+  margin-right: -2px;
+  font-family: 'CartoGothicStdBold';
+}
+/* line 24, ../scss/no-projects.scss */
+.no-projects a .add-project-link {
+  padding-top: 60px;
+  font-family: 'CartoGothicStdBold';
+  font-size: 92px;
+  color: #369dd8;
+}
+/* line 31, ../scss/no-projects.scss */
+.no-projects a .no-time {
+  margin-top: 44px;
+  font-size: 48px;
+}
+/* line 35, ../scss/no-projects.scss */
+.no-projects a .no-time strong {
+  margin-right: -2px;
+  font-family: 'CartoGothicStdBold';
 }

@@ -1,8 +1,12 @@
 @import "compass/css3";
 
 .unauthenticated {
-    margin: 80px 0;
+    margin: 60px 0;
     text-align: center;
+
+    a {
+        text-decoration: none;
+    }
 
     .skink-uses,
     .for-auth,
