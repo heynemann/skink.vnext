@@ -51,6 +51,9 @@ class Server:
                             default=False
                             )
 
+        parser.add_argument('--redis-host', default='127.0.0.1')
+        parser.add_argument('--redis-port', default=3218)
+
         parser.add_argument('-v', '--verbose', action='count', default=0)
         parser.add_argument(
             '--github-client-id',

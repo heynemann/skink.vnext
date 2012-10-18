@@ -19,6 +19,13 @@ web: dev watch
 ci-test:
 	@nosetests -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
 
+kill_redis:
+	@ps aux | awk '(/redis-server/ && $$0 !~ /awk/){ system("kill -9 "$$2) }'
+
+redis: kill_redis
+	@mkdir -p /tmp/skink/db
+	@redis-server redis.conf &
+
 setup deps:
 	@command -v node >/dev/null 2>&1 || { echo >&2 "Node.js must be installed and accessible to develop skink. Please visit http://nodejs.org/ for more info."; exit 1; }
 	@command -v npm >/dev/null 2>&1 || { echo >&2 "Node.js Package Manager (NPM) must be installed and accessible to develop skink. Please visit https://npmjs.org/ for more info."; exit 1; }

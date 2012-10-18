@@ -23,9 +23,11 @@
 import tornado.web
 
 from skink.web.handlers.base import BaseHandler
+from skink.models import Project
 
 
 class IndexHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
+
         self.render('index.html')
