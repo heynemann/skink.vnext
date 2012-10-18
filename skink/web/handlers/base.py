@@ -20,6 +20,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import urllib, hashlib
+
 import tornado.web
 
 
@@ -32,3 +34,25 @@ class BaseHandler(tornado.web.RequestHandler):
             return None
 
         return tornado.escape.json_decode(user)
+
+    def gravatar_url(self):
+        default_user = self.static_url("img/default.png")
+        if not self.current_user:
+            return 
+
+        email = self.current_user['email']
+        size = 29
+
+        # construct the url
+        gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
+        gravatar_url += urllib.urlencode({'d': default_user, 's': str(size)})
+        return gravatar_url
+
+    def get_template_namespace(self):
+        namespace = super(BaseHandler, self).get_template_namespace()
+        if namespace is None:
+            namespace = {}
+        namespace['gravatar_url'] = self.gravatar_url()
+
+        return namespace
+

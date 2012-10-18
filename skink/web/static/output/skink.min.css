@@ -559,30 +559,159 @@ html body * dd.clear {
   font-style: normal;
 }
 
-/* line 6, ../scss/style.scss */
-body {
-  font-family: arial;
-  background: url("../img/cardboard_flat.png");
-}
-
-/* line 11, ../scss/style.scss */
+/* line 7, ../scss/header.scss */
 header {
   height: 130px;
   background: #fff;
   border-bottom: solid 2px #369dd8;
-  overflow: hidden;
+  font-size: 0;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
 }
-/* line 19, ../scss/style.scss */
+/* line 15, ../scss/header.scss */
 header h1 {
+  display: inline-block;
   margin-top: 43px;
+}
+/* line 19, ../scss/header.scss */
+header h1 a {
   font-family: CartoGothicStdBold;
   font-size: 60px;
   color: #999999;
+  text-decoration: none;
 }
-/* line 26, ../scss/style.scss */
-header h1 strong {
+/* line 25, ../scss/header.scss */
+header h1 a strong {
   color: #369dd8;
+}
+/* line 29, ../scss/header.scss */
+header h1 a:hover {
+  opacity: 0.75;
+}
+/* line 35, ../scss/header.scss */
+header .toolbar {
+  text-align: right;
+}
+/* line 39, ../scss/header.scss */
+header nav {
+  display: inline-block;
+  margin-top: 65px;
+  vertical-align: top;
+}
+/* line 45, ../scss/header.scss */
+header nav ul li {
+  display: inline-block;
+}
+/* line 48, ../scss/header.scss */
+header nav ul li:first-child a {
+  border-left: none;
+}
+/* line 52, ../scss/header.scss */
+header nav ul li a {
+  color: #369dd8;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 0 10px;
+  border-left: solid 1px #989898;
+}
+/* line 61, ../scss/header.scss */
+header nav ul li a:hover {
+  text-decoration: underline;
+}
+/* line 69, ../scss/header.scss */
+header .user-data {
+  margin-top: 58px;
+  margin-left: 20px;
+  vertical-align: top;
+  display: inline-block;
+}
+/* line 75, ../scss/header.scss */
+header .user-data a {
+  font-size: 12px;
+  font-weight: bold;
+  color: #999999;
+  text-decoration: none;
+}
+/* line 81, ../scss/header.scss */
+header .user-data a:hover {
+  text-decoration: underline;
+}
+/* line 86, ../scss/header.scss */
+header .user-data .authenticated {
+  position: relative;
+  font-size: 0;
+}
+/* line 90, ../scss/header.scss */
+header .user-data .authenticated a {
+  text-decoration: none;
+}
+/* line 93, ../scss/header.scss */
+header .user-data .authenticated a:hover .user {
+  text-decoration: underline;
+}
+/* line 98, ../scss/header.scss */
+header .user-data .authenticated .gravatar {
+  display: inline-block;
+  vertical-align: top;
+}
+/* line 102, ../scss/header.scss */
+header .user-data .authenticated .gravatar img {
+  width: 29px;
+  height: 29px;
+  border-radius: 3px;
+}
+/* line 109, ../scss/header.scss */
+header .user-data .authenticated .user {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 9px;
+  margin-left: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #999999;
+}
+/* line 120, ../scss/header.scss */
+header .user-data .authenticated .arrow {
+  display: inline-block;
+  vertical-align: top;
+  background: url("../img/arrow.png") 0 0 no-repeat;
+  width: 7px;
+  height: 4px;
+  margin-top: 12px;
+  margin-left: 5px;
+}
+/* line 131, ../scss/header.scss */
+header .user-data .authenticated .menu {
+  position: absolute;
+  right: -5px;
+  top: 30px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 200ms linear;
+  -moz-transition: opacity 200ms linear;
+  -o-transition: opacity 200ms linear;
+  transition: opacity 200ms linear;
+  width: 110px;
+  height: 10px;
+  padding: 20px;
+  background: white;
+  border: solid 1px #999;
+  border-radius: 3px;
+  text-align: center;
+}
+/* line 149, ../scss/header.scss */
+header .user-data .authenticated .menu.visible {
+  opacity: 1;
+}
+/* line 154, ../scss/header.scss */
+header .user-data .authenticated .menu a:hover {
+  color: #369dd8;
+}
+
+/* line 1, ../scss/style.scss */
+body {
+  font-family: arial;
+  background: url("../img/cardboard_flat.png");
 }

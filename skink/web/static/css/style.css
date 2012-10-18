@@ -1,27 +1,5 @@
-/* line 6, ../scss/style.scss */
+/* line 1, ../scss/style.scss */
 body {
   font-family: arial;
   background: url("../img/cardboard_flat.png");
-}
-
-/* line 11, ../scss/style.scss */
-header {
-  height: 130px;
-  background: #fff;
-  border-bottom: solid 2px #369dd8;
-  overflow: hidden;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
-}
-/* line 19, ../scss/style.scss */
-header h1 {
-  margin-top: 43px;
-  font-family: CartoGothicStdBold;
-  font-size: 60px;
-  color: #999999;
-}
-/* line 26, ../scss/style.scss */
-header h1 strong {
-  color: #369dd8;
 }

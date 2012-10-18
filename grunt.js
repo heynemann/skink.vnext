@@ -10,13 +10,17 @@ var options = {
         'skink/web/static/css/reset.css',
         'skink/web/static/css/grid.css',
         'skink/web/static/css/fonts.css',
+        'skink/web/static/css/header.css',
         'skink/web/static/css/style.css'
     ],
 
     cssOutputPath: 'skink/web/static/output/skink.min.css',
 
     jsFiles: [
-        'skink/web/static/vendor/jquery-1.8.2.js'
+        'skink/web/static/vendor/jquery-1.8.2.js',
+        'skink/web/static/js/userMenu.js',
+
+        'skink/web/static/js/inline.js' // MUST BE THE LAST ONE
     ],
 
     jsOutputPath: 'skink/web/static/output/skink.min.js'
@@ -142,13 +146,13 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            files: ['skink/web/static/css/*.scss', 'skink/web/static/js/*.js'],
+            files: ['skink/web/static/scss/*.scss', 'skink/web/static/js/*.js'],
             tasks: ['dev']
         }
     });
 
 
-    grunt.registerTask('dev', ['clean', 'compass-clean', 'compass:dev', 'csslint', 'concat:css', 'lint', 'concat:js']);
+    grunt.registerTask('dev', ['compass:dev', 'concat:css', 'concat:js']);
     grunt.registerTask('compile', ['clean', 'compass-clean', 'compass:prod', 'csslint', 'cssmin', 'lint', 'min']);
 };
 

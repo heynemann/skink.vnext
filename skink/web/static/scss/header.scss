@@ -1,0 +1,161 @@
+@import "compass/css3";
+
+$blue: #369dd8;
+$lightgray: #999;
+$lightgray2: #989898;
+
+header {
+    height: 130px;
+    background: #fff;
+    border-bottom: solid 2px $blue;
+    font-size: 0;
+
+    @include box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.4));
+
+    h1 {
+        display: inline-block;
+        margin-top: 43px;
+
+        a {
+            font-family: CartoGothicStdBold;
+            font-size: 60px;
+            color: $lightgray;
+            text-decoration: none;
+
+            strong {
+                color: $blue;
+            }
+
+            &:hover {
+                opacity: 0.75;
+            }
+        }
+    }
+
+    .toolbar {
+        text-align: right;
+    }
+
+    nav {
+        display: inline-block;
+        margin-top: 65px;
+        vertical-align: top;
+
+        ul {
+            li {
+                display: inline-block;
+
+                &:first-child a {
+                    border-left: none;
+                }
+
+                a {
+                    color: $blue;
+                    font-weight: bold;
+                    font-size: 14px;
+                    text-decoration: none;
+
+                    padding: 0 10px;
+                    border-left: solid 1px $lightgray2;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .user-data {
+        margin-top: 58px;
+        margin-left: 20px;
+        vertical-align: top;
+        display: inline-block;
+
+        a {
+            font-size: 12px;
+            font-weight: bold;
+            color: $lightgray;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .authenticated {
+            position: relative;
+            font-size: 0;
+
+            a {
+                text-decoration: none;
+
+                &:hover .user {
+                    text-decoration: underline;
+                }
+            }
+
+            .gravatar {
+                display: inline-block;
+                vertical-align: top;
+
+                img {
+                    width: 29px;
+                    height: 29px;
+                    border-radius: 3px;
+                }
+            }
+
+            .user {
+                display: inline-block;
+                vertical-align: top;
+                margin-top: 9px;
+                margin-left: 5px;
+
+                font-size: 12px;
+                font-weight: bold;
+                color: $lightgray;
+            }
+
+            .arrow {
+                display: inline-block;
+                vertical-align: top;
+                background: url('../img/arrow.png') 0 0 no-repeat;
+
+                width: 7px;
+                height: 4px;
+                margin-top: 12px;
+                margin-left: 5px;
+            }
+
+            .menu {
+                position: absolute;
+                right: -5px;
+                top: 30px;
+
+                opacity: 0;
+                visibility: hidden;
+                @include transition(opacity 200ms linear);
+
+                width: 110px;
+                height: 10px;
+                padding: 20px;
+
+                background: white;
+                border: solid 1px #999;
+                border-radius: 3px;
+                text-align: center;
+
+                &.visible {
+                    opacity: 1;
+                }
+
+                a {
+                    &:hover {
+                        color: $blue;
+                    }
+                }
+            }
+        }
+    }
+}
