@@ -43,6 +43,10 @@ class Build(object):
         from skink.worker.vm.vbox import VmManager
         VmManager().create(self.uuid)
 
+    def destroy_vm(self):
+        from skink.worker.vm.vbox import VmManager
+        VmManager().destroy(self.uuid)
+
 
 class BoxType(object):
     def __init__(self, name, install):

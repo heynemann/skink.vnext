@@ -37,6 +37,7 @@ class BuildTestCase(unittest.TestCase):
     def test_uuid(self):
         self.assertEqual("uuid", self.build.uuid)
 
-    def test_create_vm(self):
+    def test_create_and_destroy_vm(self):
         self.build.create_vm()
         self.assertIn(self.build.uuid, VmManager().list())
+        self.build.destroy_vm()
