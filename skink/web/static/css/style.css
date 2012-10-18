@@ -3,3 +3,29 @@ body {
   font-family: arial;
   background: url("../img/cardboard_flat.png");
 }
+
+/* line 6, ../scss/style.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 10, ../scss/style.scss */
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -80px;
+  /* the bottom margin is the negative value of the footer's height */
+}
+
+/* line 17, ../scss/style.scss */
+footer, .push {
+  height: 80px;
+}
+
+/*
+
+Sticky Footer by Ryan Fait
+http://ryanfait.com/
+
+*/

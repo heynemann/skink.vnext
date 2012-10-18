@@ -1,10 +1,9 @@
 /* line 9, ../scss/footer.scss */
 footer {
-  height: 80px;
   background-color: #256a92;
   border-top: solid 1px #1a4c68;
 }
-/* line 14, ../scss/footer.scss */
+/* line 13, ../scss/footer.scss */
 footer .logo {
   display: inline-block;
   vertical-align: top;
@@ -20,21 +19,21 @@ footer .logo {
   text-decoration: none;
   opacity: 0.75;
 }
-/* line 31, ../scss/footer.scss */
+/* line 30, ../scss/footer.scss */
 footer .logo strong {
   color: #73b3d8;
 }
-/* line 35, ../scss/footer.scss */
+/* line 34, ../scss/footer.scss */
 footer .logo:hover {
   opacity: 0.99;
 }
-/* line 40, ../scss/footer.scss */
+/* line 39, ../scss/footer.scss */
 footer .toolbar {
   display: inline-block;
   vertical-align: top;
   margin-left: 70px;
 }
-/* line 45, ../scss/footer.scss */
+/* line 44, ../scss/footer.scss */
 footer .toolbar .copy {
   margin-top: 24px;
   margin-bottom: 12px;
@@ -42,32 +41,32 @@ footer .toolbar .copy {
   font-weight: bold;
   color: #fefefe;
 }
-/* line 52, ../scss/footer.scss */
+/* line 51, ../scss/footer.scss */
 footer .toolbar .copy a {
   text-decoration: none;
   color: #73b3d8;
   opacity: 0.75;
 }
-/* line 57, ../scss/footer.scss */
+/* line 56, ../scss/footer.scss */
 footer .toolbar .copy a:hover {
   opacity: 0.99;
 }
-/* line 64, ../scss/footer.scss */
+/* line 63, ../scss/footer.scss */
 footer .toolbar > ul {
   font-size: 0;
 }
-/* line 67, ../scss/footer.scss */
+/* line 66, ../scss/footer.scss */
 footer .toolbar > ul li {
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
 }
-/* line 73, ../scss/footer.scss */
+/* line 72, ../scss/footer.scss */
 footer .toolbar > ul li:first-child a {
   padding-left: 0;
   border: none;
 }
-/* line 79, ../scss/footer.scss */
+/* line 78, ../scss/footer.scss */
 footer .toolbar > ul li a {
   padding: 0 7px;
   border-left: solid 1px #dee5eb;
@@ -75,7 +74,7 @@ footer .toolbar > ul li a {
   color: #73b3d8;
   opacity: 0.75;
 }
-/* line 87, ../scss/footer.scss */
+/* line 86, ../scss/footer.scss */
 footer .toolbar > ul li a:hover {
   opacity: 0.99;
 }

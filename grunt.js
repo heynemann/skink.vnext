@@ -12,7 +12,8 @@ var options = {
         'skink/web/static/css/fonts.css',
         'skink/web/static/css/style.css',
         'skink/web/static/css/header.css',
-        'skink/web/static/css/footer.css'
+        'skink/web/static/css/footer.css',
+        'skink/web/static/css/unauthenticated.css'
     ],
 
     cssOutputPath: 'skink/web/static/output/skink.min.css',
