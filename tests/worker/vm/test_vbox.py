@@ -19,3 +19,4 @@ class VmManagerTestCase(unittest.TestCase):
         self.manager.destroy("myvm")
         vms = self.manager.list()
         self.assertNotIn("myvm", vms)
+
