@@ -91,7 +91,7 @@ class VmManager(object):
                                lambda nb, bs, fs, url=url: self._reporthook(nb,bs,fs,url))
             sys.stdout.write('\n')
         else:
-            urllib.urlretrieve(url, downloaded_file.name)
+            urllib.urlretrieve(url, temp_path)
 
         os.rename(temp_path, file_path)
 
