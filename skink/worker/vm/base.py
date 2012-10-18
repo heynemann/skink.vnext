@@ -27,6 +27,8 @@ class VmManager(object):
 
     __metaclass__ = ABCMeta
 
+    available_boxes = [PythonBoxType]
+
     @abstractmethod
     def bootstrap(self):
         pass
@@ -42,3 +44,4 @@ class VmManager(object):
     @abstractmethod
     def list(self):
         pass
+

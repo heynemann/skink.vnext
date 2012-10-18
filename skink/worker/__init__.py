@@ -19,15 +19,49 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import os.path
+from tempfile import NamedTemporaryFile
+
+import requests
+
 
 class Build(object):
     def __init__(self, box_type_name, install, script):
-        self.box_type = BoxType(box_type_name, "")
+        self.box_type = self.get_box_type_by_name(box_type_name)
         self.install = install
         self.script = script
+
+    def get_box_type_by_name(self, name):
+        from skink.worker import box_types
+        box_type_name = "{0}BoxType".format(name.title())
+        return getattr(box_types, box_type_name)()
 
 
 class BoxType(object):
     def __init__(self, name, install):
         self.name = name
         self.install = install
+
+    @property
+    def skink_files(self):
+        if not hasattr(self,  '_skink_files'):
+            self._skink_files = os.path.join(os.path.expanduser('~'), '.skinkfiles')
+        return self._skink_files
+
+    def ensure_download_dir(self):
+        if not os.path.exists(self.skink_files):
+            os.makedirs(self.skink_files)
+
+    def download_exists(filename):
+        return os.path.exists(os.path.join(self.skink_files.rstrip('/'), filename.lstrip('/')))
+
+    def download(self, url, filename):
+        f = NamedTemporaryFile(mode='wb')
+        r = requests.get(url)
+        f.write(r.content)
+
+        os.rename(f.name, os.path.join(self.skink_files.rstrip('/'), filename.lstrip('/')))
+
+    def bootstrap(self):
+        self.ensure_download_dir()
+
