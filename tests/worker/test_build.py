@@ -1,4 +1,7 @@
-import unittest
+try:
+        import unittest2 as unittest
+except ImportError, e:
+        import unittest
 
 from skink.worker import Build, BoxType
 
