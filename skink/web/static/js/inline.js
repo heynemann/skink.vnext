@@ -1,1 +1,1 @@
-var usermenu = new skink.UserMenu();
+var usermenu = new window.skink.UserMenu();

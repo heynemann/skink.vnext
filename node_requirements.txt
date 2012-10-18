@@ -5,3 +5,4 @@ grunt-css
 grunt-clean
 ffi
 node-ffi
+exec-sync

@@ -1,9 +1,4 @@
-var FFI = require("node-ffi");
-var libc = new FFI.Library(null, {
-  "system": ["int32", ["string"]]
-});
-
-var run = libc.system;
+var execSync = require('exec-sync');
 
 var options = {
     cssFiles: [
@@ -36,7 +31,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         meta: {
-            version: run("python -c 'import skink.version; print skink.version.version'"),
+            version: execSync("python -c 'import skink.version; print skink.version.version'"),
             banner: '/*! skink - v<%= meta.version %> - ' +
                     '<%= grunt.template.today("yyyy-mm-dd") %> */'
         },
@@ -51,8 +46,8 @@ module.exports = function(grunt) {
                 src: "skink/web/static/css/*.css",
                 rules: {
                     "import": true,
-                    "adjoining-classes": true,
-                    "important": true,
+                    "adjoining-classes": false,
+                    "important": false,
                     "box-sizing": false,
                     "box-model": false,
                     "known-properties": true,
@@ -74,7 +69,7 @@ module.exports = function(grunt) {
                     "qualified-headings": false,
                     "regex-selectors": true,
                     "shorthand": true,
-                    "text-indent": true,
+                    "text-indent": false,
                     "unique-headings": true,
                     "universal-selector": true,
                     "unqualified-attributes": true,
