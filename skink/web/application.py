@@ -25,7 +25,7 @@ from tornado.web import Application as TornadoApplication
 
 from skink.web.handlers import HealthCheckHandler, IndexHandler, \
                                LoginHandler, LogoffHandler, \
-                               NotAuthenticatedHandler
+                               NotAuthenticatedHandler, AddProjectHandler
 
 
 class Application(TornadoApplication):
@@ -53,6 +53,7 @@ class Application(TornadoApplication):
             (r"/auth/login/?", NotAuthenticatedHandler),
             (r"/auth/github/?", LoginHandler),
             (r"/auth/logoff/?", LogoffHandler),
+            (r"/projects/add/?", AddProjectHandler),
         ]
 
     @property

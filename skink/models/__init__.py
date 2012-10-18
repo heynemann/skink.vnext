@@ -26,6 +26,7 @@ from redisco import models
 class Project(models.Model):
     name = models.Attribute(required=True)
     git_repo = models.Attribute(required=True)
+    created_by = models.Attribute(required=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_build_number = models.IntegerField(default=0)
 

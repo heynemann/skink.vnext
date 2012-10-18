@@ -20,7 +20,27 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from skink.web.handlers.healthcheck import HealthCheckHandler
-from skink.web.handlers.index import IndexHandler
-from skink.web.handlers.login import LoginHandler, LogoffHandler, NotAuthenticatedHandler
-from skink.web.handlers.project import AddProjectHandler
+import tornado.web
+
+from skink.web.handlers.base import BaseHandler
+from skink.models import Project
+
+
+class AddProjectHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        self.render('add-project.html')
+
+    @tornado.web.authenticated
+    def post(self):
+        project_name = self.get_argument('project_name')
+        git_repo = self.get_argument('git_repo')
+
+        project = Project(
+            name=project_name,
+            git_repo=git_repo,
+            created_by=self.user_email
+        )
+        project.save()
+
+        self.redirect('/')
