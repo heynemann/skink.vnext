@@ -26,6 +26,7 @@ import logging
 
 import tornado.ioloop
 import tornado.httpserver
+import redisco
 
 from skink.version import version
 from skink.web.application import Application
@@ -82,6 +83,8 @@ class Server:
             self.log_level = 'debug'
 
         logging.basicConfig(level=getattr(logging, self.log_level.upper()))
+
+        redisco.connection_setup(host=options.redis_host, port=options.redis_port, db=10)
 
         self.application = Application(
             healthcheck_response=self.healthcheck_response,
