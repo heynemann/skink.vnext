@@ -20,7 +20,7 @@ class ProjectTestCase(unittest.TestCase):
         assert self.project.check_update
 
     def test_has_dir_repo(self):
-        assert self.project.dir_repo == '/builds/%s' % self.project.name, "Should be equal /buidls/<project_name>"
+        assert self.project.dir_repo == '/tmp/builds/%s' % self.project.name, "Should be equal /buidls/<project_name>"
 
     @patch('sh.git')
     def test_call_git_clone(self, mock_git_clone):

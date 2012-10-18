@@ -44,7 +44,7 @@ class Project(models.Model):
 
     @property
     def dir_repo(self):
-        return "/builds/%s" %self.name
+        return "/tmp/builds/%s" %self.name
 
 
     @property
