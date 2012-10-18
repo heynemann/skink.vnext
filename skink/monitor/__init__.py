@@ -7,6 +7,7 @@ import logging
 import redisco
 
 from skink.version import version
+from skink.models import Project
 
 class ProjectsMonitor(object):
 
@@ -18,6 +19,8 @@ class ProjectsMonitor(object):
         msg = 'skink-monitor started'
         redisco.connection_setup(host=self.redis_host, port=self.redis_port, db=10)
         logging.info(msg)
+        logging.info("Get all projects")
+        self.projects = Project.objects.all()
 
     def process_arguments(self):
         description = 'Skink v.%s web interface.' % version
@@ -25,11 +28,13 @@ class ProjectsMonitor(object):
         parser.add_argument('-v', '--verbose', action='count', default=0)
         parser.add_argument('--redis-host', default='127.0.0.1')
         parser.add_argument('--redis-port', type=int, default=3218)
+        parser.add_argument('--scan-time', type=int, default=30)
 
         options = parser.parse_args(self.arguments)
 
         self.redis_port = options.redis_port
         self.redis_host = options.redis_host
+        self.scan_time = options.scan_time
 
         if options.verbose == 0:
             self.log_level = 'warning'
