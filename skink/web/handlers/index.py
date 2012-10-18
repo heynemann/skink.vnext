@@ -23,6 +23,7 @@
 import tornado.web
 
 from skink.web.handlers.base import BaseHandler
+from skink.models import Project
 
 
 class IndexHandler(BaseHandler):

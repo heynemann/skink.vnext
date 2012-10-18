@@ -2,4 +2,12 @@
 
 {% block body %}
 
+    {% if projects %}
+        <ul class="projects">
+        {% for project in projects %}
+            <li>{{ project.name }}</li>
+        {% end %}
+        </ul>
+    {% end %}
+
 {% end %}
