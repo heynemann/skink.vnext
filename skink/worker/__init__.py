@@ -27,9 +27,14 @@ import requests
 
 class Build(object):
     def __init__(self, box_type_name, install, script):
-        self.box_type = BoxType(box_type_name, "")
+        self.box_type = self.get_box_type_by_name(box_type_name)
         self.install = install
         self.script = script
+
+    def get_box_type_by_name(self, name):
+        from skink.worker import box_types
+        box_type_name = "{0}BoxType".format(name.title())
+        return getattr(box_types, box_type_name)()
 
 
 class BoxType(object):
