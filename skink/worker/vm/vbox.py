@@ -4,6 +4,9 @@ from sh import VBoxManage
 
 
 class VmManager(base.VmManager):
+    def bootstrap(self):
+        pass
+
     def create(self, name):
         VBoxManage("createvm", "--name", name, register=True)
 

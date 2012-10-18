@@ -28,6 +28,10 @@ class VmManager(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
+    def bootstrap(self):
+        pass
+
+    @abstractmethod
     def create(self):
         pass
 
