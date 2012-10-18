@@ -21,12 +21,14 @@
 
 import os.path
 from tempfile import NamedTemporaryFile
+import uuid
 
 import requests
 
 
 class Build(object):
     def __init__(self, box_type_name, install, script):
+        self.uuid = uuid.uuid4().hex
         self.box_type = self.get_box_type_by_name(box_type_name)
         self.install = install
         self.script = script

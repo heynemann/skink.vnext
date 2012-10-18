@@ -6,25 +6,33 @@ except ImportError, e:
 from skink.worker import Build
 from skink.worker.box_types import PythonBoxType
 
+import mock
+
 
 class BuildTestCase(unittest.TestCase):
+    def setUp(self):
+        self.box_type_name = "python"
+        self.install = "pip install nose"
+        self.script = "nosetests"
+
+        with mock.patch("uuid.uuid4") as uuid4:
+            uuid4.return_value = mock.Mock(hex="uuid")
+            self.build = Build(
+                self.box_type_name,
+                self.install,
+                self.script
+            )
+
     def test_build(self):
-        box_type = "python"
-        install = "pip install nose"
-        script = "nosetests"
-
-        build = Build(box_type, install, script)
-
-        self.assertEqual(install, build.install)
-        self.assertEqual(script, build.script)
+        self.assertEqual(self.install, self.build.install)
+        self.assertEqual(self.script, self.build.script)
 
     def test_box_type(self):
-        box_type_name = "python"
-        install = "pip install nose"
-        script = "nosetests"
-
-        build = Build(box_type_name, install, script)
-        box_type = build.box_type
+        box_type = self.build.box_type
 
         self.assertIsInstance(box_type, PythonBoxType)
-        self.assertEqual(box_type_name, box_type.name)
+        self.assertEqual(self.box_type_name, box_type.name)
+
+    def test_uuid(self):
+        self.assertEqual("uuid", self.build.uuid)
+
