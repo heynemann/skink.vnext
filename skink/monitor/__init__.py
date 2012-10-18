@@ -16,6 +16,7 @@ class ProjectsMonitor(object):
 
     def start(self):
         msg = 'skink-monitor started'
+        redisco.connection_setup(host=self.redis_host, port=self.redis_port, db=10)
         logging.info(msg)
 
     def process_arguments(self):
