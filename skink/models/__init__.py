@@ -30,6 +30,16 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_build_number = models.IntegerField(default=0)
 
+
+    def clone(self):
+        pass
+
+    def fetch(self):
+        pass
+
+    def check_update(self):
+        return True
+
     @property
     def next_build(self):
         return self.last_build_number + 1
