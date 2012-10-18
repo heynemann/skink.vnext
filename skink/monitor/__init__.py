@@ -42,3 +42,6 @@ class ProjectsMonitor(object):
 
 def main():
     ProjectsMonitor(args=sys.argv[1:]).start()
+
+if __name__ == '__main__':
+    main()
