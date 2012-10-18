@@ -1,10 +1,5 @@
 {% extends "../templates/base.html" %}
 
 {% block body %}
-    {% if current_user %}
-        Welcome, {{ current_user['name'] }}! <a href="/auth/logoff">Logoff!</a>
-    {% else %}
-        <a href="/auth/github">log-in</a>
-    {% end %}
-    lorem ipsum dolor sit amet
+
 {% end %}
