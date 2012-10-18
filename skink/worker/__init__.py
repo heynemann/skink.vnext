@@ -25,3 +25,9 @@ class Build(object):
         self.box_type_name = box_type_name
         self.install = install
         self.script = script
+
+
+class BoxType(object):
+    def __init__(self, name, install):
+        self.name = name
+        self.install = install
