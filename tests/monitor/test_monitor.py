@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 from mock import patch
+from contextlib import nested
 
 from skink.monitor import ProjectsMonitor
+from skink.models import Project
 
 class MonitorTestCase(unittest.TestCase):
 
@@ -15,6 +17,7 @@ class MonitorTestCase(unittest.TestCase):
         assert monitor.redis_port == 3218
         assert monitor.redis_host =='127.0.0.1'
         assert monitor.log_level == 'warning'
+        assert monitor.scan_time == 30
 
     def test_verbose_level_1(self):
         monitor = ProjectsMonitor(['-v'])
@@ -31,11 +34,21 @@ class MonitorTestCase(unittest.TestCase):
 class MonitorStartTestCase(unittest.TestCase):
 
     def setUp(self):
-        with patch('redisco.connection_setup') as mock:
-            mock.return_value = None
-            self.mock_redisco = mock
+        self.project = Project()
+
+        with nested(
+                patch('redisco.connection_setup'),
+                patch('skink.models.Project.objects.all')
+            ) as (self.mock_redisco, self.mock_project):
+
+            self.mock_project.return_value = [self.project]
             self.monitor = ProjectsMonitor()
             self.monitor.start()
 
     def test_redisco_connection_setup_has_been_called(self):
-        self.mock_redisco.assert_called_once_with(host=self.monitor.redis_host, port=self.monitor.redis_port, db=10)
+        self.mock_redisco.assert_called_once_with(host=self.monitor.redis_host,\
+                                                  port=self.monitor.redis_port, \
+                                                  db=10)
+
+    def test_get_all_projects(self):
+        assert self.monitor.projects == [self.project]
