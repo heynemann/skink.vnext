@@ -19,6 +19,7 @@
 # HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+import sh
 
 from redisco import models
 
@@ -32,13 +33,19 @@ class Project(models.Model):
 
 
     def clone(self):
-        pass
+        command =  '%s %s' %('clone', self.git_repo)
+        sh.git(command)
 
     def fetch(self):
         pass
 
     def check_update(self):
         return True
+
+    @property
+    def dir_repo(self):
+        return "/builds/%s" %self.name
+
 
     @property
     def next_build(self):
