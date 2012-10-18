@@ -26,6 +26,7 @@ import logging
 
 import tornado.ioloop
 import tornado.httpserver
+import redisco
 
 from skink.version import version
 from skink.web.application import Application
@@ -52,7 +53,7 @@ class Server:
                             )
 
         parser.add_argument('--redis-host', default='127.0.0.1')
-        parser.add_argument('--redis-port', default=3218)
+        parser.add_argument('--redis-port', type=int, default=3218)
 
         parser.add_argument('-v', '--verbose', action='count', default=0)
         parser.add_argument(
@@ -82,6 +83,9 @@ class Server:
             self.log_level = 'debug'
 
         logging.basicConfig(level=getattr(logging, self.log_level.upper()))
+
+        logging.debug('Connecting at redis %s:%d...' % (options.redis_host, options.redis_port))
+        redisco.connection_setup(host=options.redis_host, port=options.redis_port, db=10)
 
         self.application = Application(
             healthcheck_response=self.healthcheck_response,

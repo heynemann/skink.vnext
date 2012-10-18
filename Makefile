@@ -14,7 +14,7 @@ compile:
 	@./node_modules/.bin/grunt compile
 
 web: dev watch
-	@PYTHONPATH=$(PYTHONPATH):. python skink/web/server.py -d -vv
+	@PYTHONPATH=$(PYTHONPATH):. python skink/web/server.py -d -vv --redis-port=7778
 
 ci-test:
 	@nosetests -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/

@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Bernardo Heynemann
@@ -32,3 +31,9 @@ class Project(models.Model):
     @property
     def next_build(self):
         return self.last_build_number + 1
+
+class Build(object):
+    def __init__(self, box_type_name, install, script):
+        self.box_type_name = box_type_name
+        self.install = install
+        self.script = script

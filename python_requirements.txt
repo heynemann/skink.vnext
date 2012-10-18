@@ -9,3 +9,5 @@ sh>=1.03
 unittest2>=0.5.1
 pyyaml
 mock
+redis
+redisco
