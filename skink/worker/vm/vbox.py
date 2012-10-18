@@ -21,7 +21,6 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from skink.worker.vm import base
-from skink.worker.box_types import PythonBoxType
 
 from sh import VBoxManage
 

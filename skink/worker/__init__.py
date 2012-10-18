@@ -19,6 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
 import os.path
 from tempfile import NamedTemporaryFile
 import uuid
@@ -37,6 +38,10 @@ class Build(object):
         from skink.worker import box_types
         box_type_name = "{0}BoxType".format(name.title())
         return getattr(box_types, box_type_name)()
+
+    def create_vm(self):
+        from skink.worker.vm.vbox import VmManager
+        VmManager().create(self.uuid)
 
 
 class BoxType(object):
