@@ -36,9 +36,8 @@ class VmManager(object):
 
     __metaclass__ = ABCMeta
 
-    @abstractmethod
     def bootstrap(self):
-        pass
+        self.ensure_download_dir()
 
     @abstractmethod
     def create(self):
@@ -96,6 +95,4 @@ class VmManager(object):
 
         os.rename(temp_path, file_path)
 
-    def bootstrap(self):
-        self.ensure_download_dir()
 

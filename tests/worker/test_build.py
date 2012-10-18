@@ -5,7 +5,7 @@ except ImportError, e:
 
 from skink.worker import Build
 from skink.worker.box_types import PythonBoxType
-from skink.worker.vm.vbox import VmManager
+from skink.worker.vm.vbox import UbuntuVmManager
 
 import mock
 
@@ -39,5 +39,5 @@ class BuildTestCase(unittest.TestCase):
 
     def test_create_and_destroy_vm(self):
         self.build.create_vm()
-        self.assertIn(self.build.uuid, VmManager().list())
+        self.assertIn(self.build.uuid, UbuntuVmManager().list())
         self.build.destroy_vm()

@@ -3,7 +3,7 @@ try:
 except ImportError, e:
         import unittest
 
-from skink.worker.vm.vbox import VmManager
+from skink.worker.vm.vbox import UbuntuVmManager
 
 import sh
 
@@ -12,7 +12,7 @@ import sh
 class VmManagerTestCase(unittest.TestCase):
 
     def test_vm_manager_create_and_destroy(self):
-        self.manager = VmManager()
+        self.manager = UbuntuVmManager()
         self.manager.create("myvm")
         vms = sh.VBoxManage("list", "vms")
         self.assertIn("myvm", vms)

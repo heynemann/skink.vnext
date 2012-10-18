@@ -17,5 +17,3 @@ class VmManagerTestCase(unittest.TestCase):
     def test_vm_manager_list(self):
         self.assertTrue(self.manager.list.im_func.func_dict['__isabstractmethod__'])
 
-    def test_vm_manager_bootstrap(self):
-        self.assertTrue(self.manager.bootstrap.im_func.func_dict['__isabstractmethod__'])

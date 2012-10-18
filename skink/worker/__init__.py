@@ -19,6 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import uuid
+
 class Build(object):
     def __init__(self, box_type_name, install, script):
         self.uuid = uuid.uuid4().hex
@@ -32,12 +34,12 @@ class Build(object):
         return getattr(box_types, box_type_name)()
 
     def create_vm(self):
-        from skink.worker.vm.vbox import VmManager
-        VmManager().create(self.uuid)
+        from skink.worker.vm.vbox import UbuntuVmManager
+        UbuntuVmManager().create(self.uuid)
 
     def destroy_vm(self):
-        from skink.worker.vm.vbox import VmManager
-        VmManager().destroy(self.uuid)
+        from skink.worker.vm.vbox import UbuntuVmManager
+        UbuntuVmManager().destroy(self.uuid)
 
 
 class BoxType(object):
