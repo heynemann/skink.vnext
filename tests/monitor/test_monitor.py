@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from mock import patch
 
 from skink.monitor import ProjectsMonitor
 
@@ -30,4 +31,11 @@ class MonitorTestCase(unittest.TestCase):
 class MonitorStartTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.monitor = ProjectsMonitor()
+        with patch('redisco.connection_setup') as mock:
+            mock.return_value = None
+            self.mock_redisco = mock
+            self.monitor = ProjectsMonitor()
+            self.monitor.start()
+
+    def test_redisco_connection_setup_has_been_called(self):
+        self.mock_redisco.assert_called_once_with(host=self.monitor.redis_host, port=self.monitor.redis_port, db=10)
