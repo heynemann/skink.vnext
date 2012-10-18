@@ -19,6 +19,7 @@ header {
         a {
             font-family: CartoGothicStdBold;
             font-size: 60px;
+            letter-spacing: -1px;
             color: $lightgray;
             text-decoration: none;
 
@@ -81,6 +82,11 @@ header {
             &:hover {
                 text-decoration: underline;
             }
+        }
+
+        .unauthenticated {
+            display: inline-block;
+            margin-top: 8px;
         }
 
         .authenticated {

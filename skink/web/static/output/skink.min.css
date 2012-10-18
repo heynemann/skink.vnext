@@ -559,6 +559,12 @@ html body * dd.clear {
   font-style: normal;
 }
 
+/* line 1, ../scss/style.scss */
+body {
+  font-family: arial;
+  background: url("../img/cardboard_flat.png");
+}
+
 /* line 7, ../scss/header.scss */
 header {
   height: 130px;
@@ -578,36 +584,37 @@ header h1 {
 header h1 a {
   font-family: CartoGothicStdBold;
   font-size: 60px;
+  letter-spacing: -1px;
   color: #999999;
   text-decoration: none;
 }
-/* line 25, ../scss/header.scss */
+/* line 26, ../scss/header.scss */
 header h1 a strong {
   color: #369dd8;
 }
-/* line 29, ../scss/header.scss */
+/* line 30, ../scss/header.scss */
 header h1 a:hover {
   opacity: 0.75;
 }
-/* line 35, ../scss/header.scss */
+/* line 36, ../scss/header.scss */
 header .toolbar {
   text-align: right;
 }
-/* line 39, ../scss/header.scss */
+/* line 40, ../scss/header.scss */
 header nav {
   display: inline-block;
   margin-top: 65px;
   vertical-align: top;
 }
-/* line 45, ../scss/header.scss */
+/* line 46, ../scss/header.scss */
 header nav ul li {
   display: inline-block;
 }
-/* line 48, ../scss/header.scss */
+/* line 49, ../scss/header.scss */
 header nav ul li:first-child a {
   border-left: none;
 }
-/* line 52, ../scss/header.scss */
+/* line 53, ../scss/header.scss */
 header nav ul li a {
   color: #369dd8;
   font-weight: bold;
@@ -616,53 +623,58 @@ header nav ul li a {
   padding: 0 10px;
   border-left: solid 1px #989898;
 }
-/* line 61, ../scss/header.scss */
+/* line 62, ../scss/header.scss */
 header nav ul li a:hover {
   text-decoration: underline;
 }
-/* line 69, ../scss/header.scss */
+/* line 70, ../scss/header.scss */
 header .user-data {
   margin-top: 58px;
   margin-left: 20px;
   vertical-align: top;
   display: inline-block;
 }
-/* line 75, ../scss/header.scss */
+/* line 76, ../scss/header.scss */
 header .user-data a {
   font-size: 12px;
   font-weight: bold;
   color: #999999;
   text-decoration: none;
 }
-/* line 81, ../scss/header.scss */
+/* line 82, ../scss/header.scss */
 header .user-data a:hover {
   text-decoration: underline;
 }
-/* line 86, ../scss/header.scss */
+/* line 87, ../scss/header.scss */
+header .user-data .unauthenticated {
+  display: inline-block;
+  margin-top: 8px;
+}
+/* line 92, ../scss/header.scss */
 header .user-data .authenticated {
   position: relative;
   font-size: 0;
 }
-/* line 90, ../scss/header.scss */
+/* line 96, ../scss/header.scss */
 header .user-data .authenticated a {
   text-decoration: none;
 }
-/* line 93, ../scss/header.scss */
+/* line 99, ../scss/header.scss */
 header .user-data .authenticated a:hover .user {
   text-decoration: underline;
 }
-/* line 98, ../scss/header.scss */
+/* line 104, ../scss/header.scss */
 header .user-data .authenticated .gravatar {
   display: inline-block;
   vertical-align: top;
 }
-/* line 102, ../scss/header.scss */
+/* line 108, ../scss/header.scss */
 header .user-data .authenticated .gravatar img {
   width: 29px;
   height: 29px;
   border-radius: 3px;
 }
-/* line 109, ../scss/header.scss */
+/* line 115, ../scss/header.scss */
 header .user-data .authenticated .user {
   display: inline-block;
   vertical-align: top;
@@ -672,7 +684,7 @@ header .user-data .authenticated .user {
   font-weight: bold;
   color: #999999;
 }
-/* line 120, ../scss/header.scss */
+/* line 126, ../scss/header.scss */
 header .user-data .authenticated .arrow {
   display: inline-block;
   vertical-align: top;
@@ -682,7 +694,7 @@ header .user-data .authenticated .arrow {
   margin-top: 12px;
   margin-left: 5px;
 }
-/* line 131, ../scss/header.scss */
+/* line 137, ../scss/header.scss */
 header .user-data .authenticated .menu {
   position: absolute;
   right: -5px;
@@ -701,17 +713,93 @@ header .user-data .authenticated .menu {
   border-radius: 3px;
   text-align: center;
 }
-/* line 149, ../scss/header.scss */
+/* line 155, ../scss/header.scss */
 header .user-data .authenticated .menu.visible {
   opacity: 1;
 }
-/* line 154, ../scss/header.scss */
+/* line 160, ../scss/header.scss */
 header .user-data .authenticated .menu a:hover {
   color: #369dd8;
 }
 
-/* line 1, ../scss/style.scss */
-body {
-  font-family: arial;
-  background: url("../img/cardboard_flat.png");
+/* line 9, ../scss/footer.scss */
+footer {
+  height: 80px;
+  background-color: #256a92;
+  border-top: solid 1px #1a4c68;
+}
+/* line 14, ../scss/footer.scss */
+footer .logo {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 0;
+  padding-top: 17px;
+  padding-bottom: 7px;
+  padding-right: 70px;
+  border-right: solid 1px #308abe;
+  font-family: CartoGothicStdBold;
+  font-size: 36px;
+  letter-spacing: -1px;
+  color: #fefefe;
+  text-decoration: none;
+  opacity: 0.75;
+}
+/* line 31, ../scss/footer.scss */
+footer .logo strong {
+  color: #73b3d8;
+}
+/* line 35, ../scss/footer.scss */
+footer .logo:hover {
+  opacity: 0.99;
+}
+/* line 40, ../scss/footer.scss */
+footer .toolbar {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 70px;
+}
+/* line 45, ../scss/footer.scss */
+footer .toolbar .copy {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fefefe;
+}
+/* line 52, ../scss/footer.scss */
+footer .toolbar .copy a {
+  text-decoration: none;
+  color: #73b3d8;
+  opacity: 0.75;
+}
+/* line 57, ../scss/footer.scss */
+footer .toolbar .copy a:hover {
+  opacity: 0.99;
+}
+/* line 64, ../scss/footer.scss */
+footer .toolbar > ul {
+  font-size: 0;
+}
+/* line 67, ../scss/footer.scss */
+footer .toolbar > ul li {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+}
+/* line 73, ../scss/footer.scss */
+footer .toolbar > ul li:first-child a {
+  padding-left: 0;
+  border: none;
+}
+/* line 79, ../scss/footer.scss */
+footer .toolbar > ul li a {
+  padding: 0 7px;
+  border-left: solid 1px #dee5eb;
+  text-decoration: none;
+  color: #73b3d8;
+  opacity: 0.75;
+}
+/* line 87, ../scss/footer.scss */
+footer .toolbar > ul li a:hover {
+  opacity: 0.99;
 }

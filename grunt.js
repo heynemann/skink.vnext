@@ -10,8 +10,9 @@ var options = {
         'skink/web/static/css/reset.css',
         'skink/web/static/css/grid.css',
         'skink/web/static/css/fonts.css',
+        'skink/web/static/css/style.css',
         'skink/web/static/css/header.css',
-        'skink/web/static/css/style.css'
+        'skink/web/static/css/footer.css'
     ],
 
     cssOutputPath: 'skink/web/static/output/skink.min.css',

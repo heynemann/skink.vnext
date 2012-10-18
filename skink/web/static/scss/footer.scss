@@ -1,0 +1,96 @@
+@import "compass/css3";
+
+$blue: #369dd8;
+$lightblue: #256a92;
+$lightblue2: #73b3d8;
+$darkblue: #1a4c68;
+$white: #fefefe;
+
+footer {
+    height: 80px;
+    background-color: $lightblue;
+    border-top: solid 1px $darkblue;
+
+    .logo {
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px 0;
+
+        padding-top: 17px;
+        padding-bottom: 7px;
+        padding-right: 70px;
+        border-right: solid 1px #308abe;
+
+        font-family: CartoGothicStdBold;
+        font-size: 36px;
+        letter-spacing: -1px;
+        color: $white;
+        text-decoration: none;
+        opacity: 0.75;
+
+        strong {
+            color: $lightblue2;
+        }
+
+        &:hover {
+            opacity: 0.99;
+        }
+    }
+
+    .toolbar {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 70px;
+
+        .copy {
+            margin-top: 24px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: $white;
+
+            a {
+                text-decoration: none;
+                color: $lightblue2;
+                opacity: 0.75;
+
+                &:hover{
+                    opacity: 0.99;
+                }
+            }
+
+        }
+
+        > ul {
+            font-size: 0;
+
+            li {
+                display: inline-block;
+                font-size: 12px;
+                font-weight: bold;
+
+                &:first-child {
+                    a {
+                        padding-left: 0;
+                        border: none;
+                    }
+                }
+
+                a {
+                    padding: 0 7px;
+                    border-left: solid 1px #dee5eb;
+
+                    text-decoration: none;
+                    color: $lightblue2;
+                    opacity: 0.75;
+
+                    &:hover{
+                        opacity: 0.99;
+                    }
+                }
+
+            }
+        }
+    }
+}
+

@@ -37,7 +37,7 @@
                             </a>
                         </div>
                     {% else %}
-                        <a href="/auth/github">please log-in</a>
+                        <a class="unauthenticated" href="/auth/github">please log-in</a>
                     {% end %}
                     </div>
                 </div>
@@ -46,6 +46,22 @@
     </header>
     {% block body %}{% end %}
 
+    <footer>
+        <div class="container_16">
+            <div class="grid_16">
+                <a class="logo" href="http://github.com/heynemann/skink.vnext"><strong>skink</strong>.ci</a>
+                <div class="toolbar">
+                    <div class="copy">
+                        <a href="http://github.com/heynemann/skink.vnext">skink.ci</a> is an <a href="http://en.wikipedia.org/wiki/MIT_License">MIT Licensed</a> open-source project - <a href="https://github.com/heynemann/skink.vnext/fork_select">fork it</a> at github
+                    </div>
+                    <ul>
+                        <li><a href="http://github.com/heynemann/skink.vnext">project home page</a></li>
+                        <li><a href="http://github.com/heynemann/skink.vnext/issues">create an issue</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script type="text/javascript" src="{{ static_url("output/skink.min.js") }}"></script>
     {% block scripts %}{% end %}
 </body>
