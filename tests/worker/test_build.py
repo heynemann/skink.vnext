@@ -3,7 +3,8 @@ try:
 except ImportError, e:
         import unittest
 
-from skink.worker import Build, BoxType
+from skink.worker import Build
+from skink.worker.box_types import PythonBoxType
 
 
 class BuildTestCase(unittest.TestCase):
@@ -25,5 +26,5 @@ class BuildTestCase(unittest.TestCase):
         build = Build(box_type_name, install, script)
         box_type = build.box_type
 
-        self.assertIsInstance(box_type, BoxType)
+        self.assertIsInstance(box_type, PythonBoxType)
         self.assertEqual(box_type_name, box_type.name)
