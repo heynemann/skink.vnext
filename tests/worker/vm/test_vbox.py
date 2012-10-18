@@ -3,7 +3,7 @@ try:
 except ImportError, e:
         import unittest
 
-from skink.vm.vbox import VmManager
+from skink.worker.vm.vbox import VmManager
 
 import sh
 

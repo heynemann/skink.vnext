@@ -1,6 +1,6 @@
 import unittest
 
-from skink.vm.base import VmManager
+from skink.worker.vm.base import VmManager
 
 
 class VmManagerTestCase(unittest.TestCase):

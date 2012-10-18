@@ -1,4 +1,4 @@
-from skink.vm import base
+from skink.worker.vm import base
 
 from sh import VBoxManage
 
