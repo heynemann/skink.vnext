@@ -19,18 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from redisco import models
-
-
-class Project(models.Model):
-    name = models.Attribute(required=True)
-    git_repo = models.Attribute(required=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_build_number = models.IntegerField(default=0)
-
-    @property
-    def next_build(self):
-        return self.last_build_number + 1
 
 class Build(object):
     def __init__(self, box_type_name, install, script):
