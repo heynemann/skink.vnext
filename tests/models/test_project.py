@@ -20,11 +20,16 @@ class ProjectTestCase(unittest.TestCase):
         assert self.project.check_update
 
     def test_has_dir_repo(self):
-        assert self.project.dir_repo == '/builds/%s' % self.project.name
+        assert self.project.dir_repo == '/builds/%s' % self.project.name, "Should be equal /buidls/<project_name>"
 
     @patch('sh.git')
     def test_call_git_clone(self, mock_git_clone):
         self.project.clone()
         expected_params = '%s %s' %('clone', self.project.git_repo)
         mock_git_clone.assert_called_once_with(expected_params)
+
+    @patch('sh.git')
+    def test_call_git_fetch(self, mock_git_fetch):
+        self.project.fetch()
+        mock_git_fetch.assert_called_once_with("fetch --all")
 

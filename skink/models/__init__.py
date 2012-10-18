@@ -37,7 +37,7 @@ class Project(models.Model):
         sh.git(command)
 
     def fetch(self):
-        pass
+        sh.git("fetch --all")
 
     def check_update(self):
         return True
