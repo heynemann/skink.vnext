@@ -19,15 +19,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import sys
-import os.path
-from uuid import uuid4
-
-import urllib
-
-
 class Build(object):
     def __init__(self, box_type_name, install, script):
+        self.uuid = uuid.uuid4().hex
         self.box_type = self.get_box_type_by_name(box_type_name)
         self.install = install
         self.script = script
@@ -36,6 +30,14 @@ class Build(object):
         from skink.worker import box_types
         box_type_name = "{0}BoxType".format(name.title())
         return getattr(box_types, box_type_name)()
+
+    def create_vm(self):
+        from skink.worker.vm.vbox import VmManager
+        VmManager().create(self.uuid)
+
+    def destroy_vm(self):
+        from skink.worker.vm.vbox import VmManager
+        VmManager().destroy(self.uuid)
 
 
 class BoxType(object):

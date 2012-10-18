@@ -29,6 +29,8 @@ from uuid import uuid4
 
 from abc import ABCMeta, abstractmethod
 
+from skink.worker.box_types import PythonBoxType
+
 
 class VmManager(object):
 
