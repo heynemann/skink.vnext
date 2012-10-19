@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
+from mock import patch, Mock
 from contextlib import nested
 
 from skink.monitor import ProjectsMonitor
@@ -42,11 +42,13 @@ class MonitorStartTestCase(unittest.TestCase):
 
         with nested(
                 patch('redisco.connection_setup'),
-                patch('skink.models.Project.objects.all')
-            ) as (self.mock_redisco, self.mock_project):
+                patch('skink.models.Project.objects.all'),
+                patch('time.sleep')
+            ) as (self.mock_redisco, self.mock_project, self.mock_sleep):
 
             self.mock_project.return_value = [self.project]
             self.monitor = ProjectsMonitor()
+            self.monitor.run = Mock()
             self.monitor.start()
 
     def test_redisco_connection_setup_has_been_called(self):
@@ -57,7 +59,13 @@ class MonitorStartTestCase(unittest.TestCase):
     def test_get_all_projects(self):
         assert self.monitor.projects == [self.project]
 
-    @patch('time.sleep')
-    def test_call_wait(self, sleep_mock):
-      self.monitor.run()
-      sleep_mock.assert_called_once_with(self.monitor.scan_time)
+    def test_call_wait(self):
+        self.mock_sleep.assert_called_once_with(self.monitor.scan_time)
+
+    def test_call_run(self):
+        self.monitor.run.assert_called_once_with()
+
+class MonitorRunTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.monitor = ProjectsMonitor()

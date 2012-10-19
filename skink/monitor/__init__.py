@@ -22,9 +22,11 @@ class ProjectsMonitor(object):
         logging.info(msg)
         logging.info("Get all projects")
         self.projects = Project.objects.all()
+        self.run()
+        time.sleep(self.scan_time)
 
     def run(self):
-      time.sleep(self.scan_time)
+        pass
 
     def process_arguments(self):
         description = 'Skink v.%s web interface.' % version
