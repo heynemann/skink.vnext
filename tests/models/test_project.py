@@ -33,3 +33,9 @@ class ProjectTestCase(unittest.TestCase):
         self.project.fetch()
         mock_git_fetch.assert_called_once_with("fetch --all")
 
+    @patch('os.path.exists')
+    def test_return_true(self, mock):
+        mock.return_value = False 
+        assert self.project.check_update()
+        mock.assert_called_once_with('.git')
+

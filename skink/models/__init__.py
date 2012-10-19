@@ -20,6 +20,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import sh
+import os
 
 from redisco import models
 
@@ -40,6 +41,9 @@ class Project(models.Model):
         sh.git("fetch --all")
 
     def check_update(self):
+        if os.path.exists(".git"):
+            pass
+
         return True
 
     @property
