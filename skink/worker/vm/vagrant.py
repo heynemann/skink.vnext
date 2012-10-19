@@ -26,6 +26,8 @@ from shutil import rmtree
 
 from sh import vagrant
 
+from skink.models.config import Config
+
 
 class VagrantManager:
     vagrant_box_id = 'precise64'
@@ -33,10 +35,30 @@ class VagrantManager:
     vagrant_root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'vagrant'))
 
     def __init__(self, ip):
+        self.clean_output()
         self.ip = ip
         self.vagrant_file_dir = tempfile.mkdtemp()
         self.vagrant_file_path = None
         self.write_vagrant_file()
+
+    def log(self, message, message_type="text"):
+        self.output.append({
+            'type': message_type,
+            'message': message
+        })
+        print "[%s] %s" % (message_type, message)
+
+    def cmd(self, message):
+        self.log(message, message_type='cmd')
+
+    def out(self, message):
+        self.log(message, message_type='out')
+
+    def br(self):
+        self.log('', message_type='br')
+
+    def clean_output(self):
+        self.output = []
 
     def cleanup(self):
         self.destroy()
@@ -50,6 +72,12 @@ class VagrantManager:
 
     def write_vagrant_file(self):
         self.vagrant_file_path = os.path.join(self.vagrant_file_dir, 'VagrantFile')
+        self.cmd('Vagrant file written at %s' % self.vagrant_file_path)
+        self.cmd('    Arguments:')
+        self.cmd('    * box_id: %s' % self.vagrant_box_id)
+        self.cmd('    * box_url: %s' % self.vagrant_box_url)
+        self.cmd('    * box_ip: %s' % self.ip)
+
         with open(self.vagrant_file_path, 'w') as f:
             f.write(self.vagrant_template % {
                 'box_id': self.vagrant_box_id,
@@ -63,32 +91,84 @@ class VagrantManager:
 
     def create(self):
         self.destroy()
+        self.cmd('vagrant up')
         for line in self.vagrant.up():
-            print line
+            self.out(line)
+
+    def suspend(self):
+        self.cmd('vagrant suspend')
+        for line in self.vagrant.suspend():
+            self.out(line)
+
+    def resume(self):
+        self.cmd('vagrant resume')
+        for line in self.vagrant.resume():
+            self.out(line)
 
     def destroy(self):
+        self.cmd('vagrant destroy --force')
         for line in self.vagrant.destroy(force=True):
-            print line
+            self.out(line)
+
+    @property
+    def config(self):
+        return Config.create_from_file(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../.skink.yml')))
+
+    def run_command_in_vm(self, command, cwd=True):
+        if cwd:
+            command = 'cd ~/skink-build && %s' % command
+
+        self.cmd(command)
+        for line in self.vagrant.ssh(command=command):
+            self.out(line)
+
+    def clone_repository(self):
+        self.cmd('Cloning repository...')
+        self.run_command_in_vm('sudo aptitude install -y git-core', cwd=False)
+        self.run_command_in_vm('git clone https://github.com/heynemann/skink.vnext.git ~/skink-build', cwd=False)
+
+    def provision(self):
+        self.br()
+        self.cmd('Provisioning...')
+
+        self.clone_repository()
+
+        for command in self.config.install:
+            self.run_command_in_vm(command)
+
+    def build(self):
+        self.br()
+        self.cmd('Building...')
+
+        for command in self.config.script:
+            self.run_command_in_vm(command)
 
     def bootstrap(self):
         self.ensure_vagrant_vm_available()
 
     def ensure_vagrant_vm_available(self):
+        self.cmd('vagrant box list')
         boxes = self.vagrant.box.list()
+        self.out('\n\t'.join(boxes))
 
-        print 'Provisioning VagrantVM Manager'
-        print
-        print 'Retrieving %s box from %s' % (self.vagrant_box_id, self.vagrant_box_url)
+        self.cmd('Retrieving %s box from %s' % (self.vagrant_box_id, self.vagrant_box_url))
 
         if self.vagrant_box_id in boxes:
-            print '%s box already downloaded.' % self.vagrant_box_id
+            self.out('%s box already downloaded.' % self.vagrant_box_id)
         else:
+            self.cmd('vagrant box ad %s %s' % (self.vagrant_box_id, self.vagrant_box_url))
             for line in self.vagrant.box.add(self.vagrant_box_id, self.vagrant_box_url, _iter=True):
-                print line
+                self.out(line)
 
 if __name__ == '__main__':
     vm = VagrantManager(ip='33.66.33.01')
-    vm.bootstrap()
-    vm.create()
-    vm.cleanup()
+    try:
+        vm.bootstrap()
+        vm.create()
+        #vm.suspend()
+        #vm.resume()
+        vm.provision()
+        vm.build()
+    finally:
+        vm.cleanup()
 
