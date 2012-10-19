@@ -3,6 +3,7 @@
 import sys
 import argparse
 import logging
+import time
 
 import redisco
 
@@ -21,6 +22,9 @@ class ProjectsMonitor(object):
         logging.info(msg)
         logging.info("Get all projects")
         self.projects = Project.objects.all()
+
+    def run(self):
+      time.sleep(self.scan_time)
 
     def process_arguments(self):
         description = 'Skink v.%s web interface.' % version

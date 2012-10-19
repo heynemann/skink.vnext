@@ -31,6 +31,10 @@ class MonitorTestCase(unittest.TestCase):
         monitor = ProjectsMonitor()
         assert  monitor.start
 
+    def test_has_run_method(self):
+        monitor = ProjectsMonitor()
+        assert monitor.run
+
 class MonitorStartTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -52,3 +56,8 @@ class MonitorStartTestCase(unittest.TestCase):
 
     def test_get_all_projects(self):
         assert self.monitor.projects == [self.project]
+
+    @patch('time.sleep')
+    def test_call_wait(self, sleep_mock):
+      self.monitor.run()
+      sleep_mock.assert_called_once_with(self.monitor.scan_time)

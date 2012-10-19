@@ -44,7 +44,10 @@ class Project(models.Model):
 
     @property
     def dir_repo(self):
-        return "/tmp/builds/%s" %self.name
+        if not hasattr(self, '_dir_repo'):
+            self._dir_repo = "/tmp/builds/%s" %self.name
+
+        return self._dir_repo
 
 
     @property
