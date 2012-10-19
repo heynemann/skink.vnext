@@ -15,6 +15,7 @@ class ProjectsMonitor(object):
     def __init__(self, args=[]):
         self.arguments = args
         self.process_arguments()
+        self.debug = False
 
     def start(self):
         msg = 'skink-monitor started'
@@ -22,8 +23,13 @@ class ProjectsMonitor(object):
         logging.info(msg)
         logging.info("Get all projects")
         self.projects = Project.objects.all()
-        self.run()
-        time.sleep(self.scan_time)
+        while(True):
+            self.run()
+            time.sleep(self.scan_time)
+
+            if self.debug:
+                break
+
 
     def run(self):
         pass

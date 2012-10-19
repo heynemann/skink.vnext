@@ -18,6 +18,7 @@ class MonitorTestCase(unittest.TestCase):
         assert monitor.redis_host =='127.0.0.1'
         assert monitor.log_level == 'warning'
         assert monitor.scan_time == 30
+        assert monitor.debug  == False
 
     def test_verbose_level_1(self):
         monitor = ProjectsMonitor(['-v'])
@@ -48,6 +49,7 @@ class MonitorStartTestCase(unittest.TestCase):
 
             self.mock_project.return_value = [self.project]
             self.monitor = ProjectsMonitor()
+            self.monitor.debug = True
             self.monitor.run = Mock()
             self.monitor.start()
 
@@ -69,3 +71,4 @@ class MonitorRunTestCase(unittest.TestCase):
 
     def setUp(self):
         self.monitor = ProjectsMonitor()
+        self.monitor.debug = True
