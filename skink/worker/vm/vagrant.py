@@ -27,26 +27,31 @@ from shutil import rmtree
 from sh import vagrant
 
 from skink.models.config import Config
+from skink.worker.box_types import *
 
 
 class VagrantManager:
     vagrant_box_id = 'precise64'
     vagrant_box_url = 'http://files.vagrantup.com/precise64.box'
     vagrant_root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'vagrant'))
+    available_boxes = [Python27BoxType]
 
-    def __init__(self, ip):
+    def __init__(self, worker_id, ip):
         self.clean_output()
+        self.worker_id = worker_id
         self.ip = ip
         self.vagrant_file_dir = tempfile.mkdtemp()
         self.vagrant_file_path = None
         self.write_vagrant_file()
+        self.boxes = [box(self) for box in self.available_boxes]
 
     def log(self, message, message_type="text"):
         self.output.append({
+            'worker_id': self.worker_id,
             'type': message_type,
             'message': message
         })
-        print "[%s] %s" % (message_type, message)
+        print "[%s: %s] %s" % (self.worker_id, message_type, message)
 
     def cmd(self, message):
         self.log(message, message_type='cmd')
@@ -112,36 +117,54 @@ class VagrantManager:
 
     @property
     def config(self):
-        return Config.create_from_file(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../.skink.yml')))
+        if not hasattr(self, '_config'):
+            self._config = Config.create_from_file(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../.skink.yml')))
+        return self._config
 
-    def run_command_in_vm(self, command, cwd=True):
-        if cwd:
-            command = 'cd ~/skink-build && %s' % command
+    def run(self, command, cwd=True):
+        path = '/usr/bin:/usr/local/bin:/sbin:/bin'
 
         self.cmd(command)
-        for line in self.vagrant.ssh(command=command):
+
+        if cwd:
+            command = 'cd %s/skink-build && %s' % (self.home_folder, command)
+
+        for line in self.vagrant.ssh(command='PATH=$PATH:%s %s' % (path, command)):
             self.out(line)
 
-    def clone_repository(self):
-        self.cmd('Cloning repository...')
-        self.run_command_in_vm('sudo aptitude install -y git-core', cwd=False)
-        self.run_command_in_vm('git clone https://github.com/heynemann/skink.vnext.git ~/skink-build', cwd=False)
+    def get_home_folder(self):
+        self.home_folder = vagrant.ssh(_cwd=self.vagrant_file_dir, _tty_in=True, _tty_out=True, _err_to_out=True, command="cd ~ && pwd").strip()
 
-    def provision(self):
+    def clone_repository(self, repository):
+        self.cmd('Cloning repository...')
+        self.run('sudo aptitude install -y git-core', cwd=False)
+        self.run('git clone %s %s/skink-build' % (repository, self.home_folder), cwd=False)
+
+    def process(self, payload):
+        self.get_home_folder()
+        self.clone_repository(payload['repository'])
+        self.provision(payload['box_type'], payload['install'])
+        self.build(payload['script'])
+
+    def provision(self, box_type, install):
         self.br()
         self.cmd('Provisioning...')
 
-        self.clone_repository()
+        self.run('sudo aptitude install -y make', cwd=False)
 
-        for command in self.config.install:
-            self.run_command_in_vm(command)
+        for available_box in self.boxes:
+            if available_box.name.lower() == box_type.lower():
+                available_box.provision()
 
-    def build(self):
+        for command in install:
+            self.run(command)
+
+    def build(self, script):
         self.br()
         self.cmd('Building...')
 
-        for command in self.config.script:
-            self.run_command_in_vm(command)
+        for command in script:
+            self.run(command)
 
     def bootstrap(self):
         self.ensure_vagrant_vm_available()
@@ -161,14 +184,22 @@ class VagrantManager:
                 self.out(line)
 
 if __name__ == '__main__':
-    vm = VagrantManager(ip='33.66.33.01')
+    vm = VagrantManager(worker_id='1.workers.skink.ci', ip='33.66.33.01')
     try:
         vm.bootstrap()
         vm.create()
         #vm.suspend()
         #vm.resume()
-        vm.provision()
-        vm.build()
+        vm.process({
+            'repository': 'https://github.com/globocom/tapioca.git',
+            'box_type': 'python2.7',
+            'install': [
+                'sudo pip install -r requirements.txt --use-mirrors'
+            ],
+            'script': [
+                'make test'
+            ]
+        })
     finally:
         vm.cleanup()
 

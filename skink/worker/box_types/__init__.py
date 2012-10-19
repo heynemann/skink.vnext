@@ -20,18 +20,11 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import requests
+class Python27BoxType:
+    def __init__(self, manager):
+        self.manager = manager
+        self.name = 'python2.7'
 
-from skink.worker import BoxType
-
-class PythonBoxType(BoxType):
-    def __init__(self):
-        install = "sudo apt-get install python python-pip -y"
-        name = "python"
-        super(PythonBoxType, self).__init__(name, install)
-
-
-if __name__ == '__main__':
-    box = PythonBoxType()
-
-    box.bootstrap()
+    def provision(self):
+        install = "sudo apt-get install python python-dev python-pip -y"
+        self.manager.run(install, cwd=False)
