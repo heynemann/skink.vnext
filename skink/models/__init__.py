@@ -33,20 +33,28 @@ class Project(models.Model):
     last_build_number = models.IntegerField(default=0)
 
     def clone(self):
-        command = '%s %s' % ('clone', self.git_repo)
+        command = '%s %s %s' % ('clone', self.git_repo, self.name)
         sh.git(command)
 
     def fetch(self):
         sh.git("fetch --all")
 
     def has_git_repo(self):
-        return os.path.exists('.git')
+        path = os.path.join(self.dir_repo, ".git")
+        return os.path.exists(path)
 
     def has_dir(self):
         return os.path.exists(self.dir_repo)
 
+    def _create_git_repo(self):
+        self.clone()
+
     def check_update(self):
-        pass
+        if not self.has_dir() or not self.has_git_repo():
+            self._create_git_repo()
+            return True
+
+        return False
 
     @property
     def dir_repo(self):
