@@ -23,9 +23,18 @@ class ProjectTestCase(unittest.TestCase):
     def test_has_check_update_method(self):
         assert self.project.check_update
 
+    def test_has_diff_method(self):
+        assert self.project.diff
+
     def test_has_dir_repo(self):
         expected = '/tmp/builds/%s' % self.project.name
         assert self.project.dir_repo == expected
+
+    @patch('sh.git')
+    def test_call_git_diff(self, mock_git):
+        mock_git.return_value = "Teste"
+        assert self.project.diff() == "Teste"
+        mock_git.assert_called_once_with(diff="origin/master")
 
     @patch('sh.git')
     def test_call_git_clone(self, mock_git_clone):

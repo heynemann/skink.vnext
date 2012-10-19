@@ -32,6 +32,9 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_build_number = models.IntegerField(default=0)
 
+    def diff(self, branch="master"):
+        return sh.git(diff='origin/master')
+
     def clone(self):
         command = '%s %s %s' % ('clone', self.git_repo, self.name)
         sh.git(command)
