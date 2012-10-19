@@ -38,13 +38,23 @@ class ProjectTestCase(unittest.TestCase):
         mock_git_fetch.assert_called_once_with("fetch --all")
 
     @patch('os.path.exists')
-    def test_return_true_if_dont_has_git_repo(self, mock):
+    def test_has_git_repo_return_false(self, mock):
         mock.return_value = False
         assert not self.project.has_git_repo()
         mock.assert_called_once_with('.git')
 
     @patch('os.path.exists')
-    def test_return_true_if_dir_not_exists(self, mock):
+    def test_has_git_repo_return_true(self, mock):
+        mock.return_value = True
+        assert self.project.has_git_repo()
+
+    @patch('os.path.exists')
+    def test_has_dir_return_false(self, mock):
         mock.return_value = False
         assert not self.project.has_dir()
         mock.assert_called_once_with(self.project.dir_repo)
+
+    @patch('os.path.exists')
+    def test_has_dir_return_true(self, mock):
+        mock.return_value = True
+        assert self.project.has_dir()
