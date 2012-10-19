@@ -46,15 +46,15 @@ class Project(models.Model):
     def has_dir(self):
         return os.path.exists(self.dir_repo)
 
-    def _create_git_repo(self):
-        self.clone()
-
     def check_update(self):
         if not self.has_dir() or not self.has_git_repo():
             self._create_git_repo()
             return True
 
         return False
+
+    def _create_git_repo(self):
+        self.clone()
 
     @property
     def dir_repo(self):
