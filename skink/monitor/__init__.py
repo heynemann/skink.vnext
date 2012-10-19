@@ -25,8 +25,9 @@ class ProjectsMonitor(object):
 
         logging.info(msg)
         logging.info("Get all projects")
-        self.projects = Project.objects.all()
         while(True):
+            self.projects = Project.objects.all()
+
             self.run()
             time.sleep(self.scan_time)
 

@@ -37,7 +37,7 @@ class Project(models.Model):
         sh.git(command)
 
     def fetch(self):
-        sh.git("fetch --all")
+        sh.git("fetch --all", _cwd=self.dir_repo)
 
     def has_git_repo(self):
         path = os.path.join(self.dir_repo, ".git")

@@ -38,7 +38,8 @@ class ProjectTestCase(unittest.TestCase):
     @patch('sh.git')
     def test_call_git_fetch(self, mock_git_fetch):
         self.project.fetch()
-        mock_git_fetch.assert_called_once_with("fetch --all")
+        mock_git_fetch.assert_called_once_with("fetch --all",
+                                              _cwd = self.project.dir_repo)
 
     @patch('os.path.exists')
     def test_has_git_repo_return_false(self, mock):
