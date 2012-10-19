@@ -5,10 +5,13 @@ from mock import patch
 
 from skink.models import Project
 
+
 class ProjectTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.project = Project(name=u"skink.next", git_repo = 'git@git://github.com/heynemman/skink.next')
+        url_git_repo = 'git@git://github.com/heynemman/skink.next'
+        self.project = Project(name=u"skink.next",
+                               git_repo=url_git_repo)
 
     def test_has_clone_method(self):
         assert self.project.clone
@@ -20,12 +23,13 @@ class ProjectTestCase(unittest.TestCase):
         assert self.project.check_update
 
     def test_has_dir_repo(self):
-        assert self.project.dir_repo == '/tmp/builds/%s' % self.project.name, "Should be equal /buidls/<project_name>"
+        expected = '/tmp/builds/%s' % self.project.name
+        assert self.project.dir_repo == expected
 
     @patch('sh.git')
     def test_call_git_clone(self, mock_git_clone):
         self.project.clone()
-        expected_params = '%s %s' %('clone', self.project.git_repo)
+        expected_params = '%s %s' % ('clone', self.project.git_repo)
         mock_git_clone.assert_called_once_with(expected_params)
 
     @patch('sh.git')
@@ -34,8 +38,13 @@ class ProjectTestCase(unittest.TestCase):
         mock_git_fetch.assert_called_once_with("fetch --all")
 
     @patch('os.path.exists')
-    def test_return_true(self, mock):
-        mock.return_value = False 
-        assert self.project.check_update()
+    def test_return_true_if_dont_has_git_repo(self, mock):
+        mock.return_value = False
+        assert not self.project.has_git_repo()
         mock.assert_called_once_with('.git')
 
+    @patch('os.path.exists')
+    def test_return_true_if_dir_not_exists(self, mock):
+        mock.return_value = False
+        assert not self.project.has_dir()
+        mock.assert_called_once_with(self.project.dir_repo)

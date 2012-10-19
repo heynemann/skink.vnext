@@ -32,32 +32,32 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_build_number = models.IntegerField(default=0)
 
-
     def clone(self):
-        command =  '%s %s' %('clone', self.git_repo)
+        command = '%s %s' % ('clone', self.git_repo)
         sh.git(command)
 
     def fetch(self):
         sh.git("fetch --all")
 
-    def check_update(self):
-        if os.path.exists(".git"):
-            pass
+    def has_git_repo(self):
+        return os.path.exists('.git')
 
-        return True
+    def has_dir(self):
+        return os.path.exists(self.dir_repo)
+
+    def check_update(self):
+        pass
 
     @property
     def dir_repo(self):
         if not hasattr(self, '_dir_repo'):
-            self._dir_repo = "/tmp/builds/%s" %self.name
+            self._dir_repo = "/tmp/builds/%s" % self.name
 
         return self._dir_repo
-
 
     @property
     def next_build(self):
         return self.last_build_number + 1
-
 
 #class Build(models.Model):
     #project = models.ReferenceField(Project, required=True)
