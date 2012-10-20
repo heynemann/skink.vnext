@@ -91,3 +91,11 @@ class ProjectTestCase(unittest.TestCase):
         self.project._create_git_repo = Mock()
         self.project.check_update()
         self.project._create_git_repo.assert_called_once_with()
+
+    def test_call_diff_and_return_true(self):
+        self.project.has_dir = Mock(return_value = True)
+        self.project.has_git_repo = Mock(return_value = True)
+        self.project.diff = Mock(return_value="Any value")
+        assert self.project.check_update()
+        self.project.diff.assert_called_once_with()
+

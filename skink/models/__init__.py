@@ -54,7 +54,8 @@ class Project(models.Model):
             self._create_git_repo()
             return True
 
-        return False
+        diffs = self.diff()
+        return  len(diffs) > 0
 
     def _create_git_repo(self):
         self.clone()
