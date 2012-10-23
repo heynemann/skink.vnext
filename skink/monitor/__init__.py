@@ -9,6 +9,7 @@ import redisco
 
 from skink.version import version
 from skink.models import Project
+from skink.models.config import Config
 
 class ProjectsMonitor(object):
 
@@ -36,7 +37,14 @@ class ProjectsMonitor(object):
 
 
     def run(self):
-        pass
+        for project in self.projects:
+            if project.check_update():
+                project.pull()
+                self.create_build(project)
+
+    def create_build(self, project):
+        path = "%s/.skink.yaml" % project.dir_repo
+        Config.create_from_file(path)
 
     def process_arguments(self):
         description = 'Skink v.%s web interface.' % version

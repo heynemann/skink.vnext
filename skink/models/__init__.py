@@ -49,6 +49,9 @@ class Project(models.Model):
     def has_dir(self):
         return os.path.exists(self.dir_repo)
 
+    def pull(self):
+        sh.git(pull="master")
+
     def check_update(self):
         if not self.has_dir() or not self.has_git_repo():
             self._create_git_repo()

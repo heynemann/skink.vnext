@@ -70,5 +70,24 @@ class MonitorStartTestCase(unittest.TestCase):
 class MonitorRunTestCase(unittest.TestCase):
 
     def setUp(self):
+        self.project = Project()
+        self.project.check_update = Mock(return_value=False)
+        self.project.pull = Mock()
         self.monitor = ProjectsMonitor()
+        self.monitor.projects = [self.project]
         self.monitor.debug = True
+
+    def test_call_project_check_updates(self):
+        self.monitor.run()
+        self.project.check_update.assert_called_once_with()
+
+    def test_call_create_build(self):
+        self.project.check_update = Mock(return_value=True)
+        self.monitor.create_build = Mock()
+        self.monitor.run()
+        self.monitor.create_build.assert_called_once_with(self.project)
+
+    def test_dont_call_create_build(self):
+        self.monitor.create_build = Mock()
+        self.monitor.run()
+        assert not self.monitor.create_build.called
