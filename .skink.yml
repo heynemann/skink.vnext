@@ -4,6 +4,7 @@ boxes:
 
 install:
     # based on http://www.howtoforge.com/vboxheadless-running-virtual-machines-with-virtualbox-4.1-on-a-headless-ubuntu-11.10-server
+    - sudo apt-get install wget
     - sudo wget http://mac4deb.googlepages.com/addrepo -O /usr/bin/addrepo
     - sudo chmod +x /usr/bin/addrepo
     - addrepo deb http://download.virtualbox.org/virtualbox/debian oneiric contrib

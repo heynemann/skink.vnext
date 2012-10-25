@@ -20,11 +20,13 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import re
 import sys
 import os.path
+import time
 
 import libvirt
-from sh import lxc_create, lxc_stop, lxc_destroy, lxc_list, ssh, ssh_copy_id, ping
+from sh import lxc_create, lxc_stop, lxc_destroy, lxc_list, ssh, ping, arp
 from colorama import Fore, Style
 
 from skink.models.config import Config
@@ -32,6 +34,25 @@ from skink.models.config import Config
 sys.stdout = os.fdopen(sys.stdout.fileno(), "wb", 0)
 
 aggregated = ''
+output = []
+
+def ssh_interact(char, stdin):
+    global aggregated
+
+    last_output = ''
+
+    sys.stdout.write(char.encode())
+    aggregated += char
+
+    if aggregated.endswith('password: ') or aggregated.endswith('password for ubuntu: '):
+        stdin.put("ubuntu\n")
+
+    if (char == '\n'):
+        output.append({
+            'type': 'out',
+            'message': aggregated.replace(last_output, '')
+        })
+        last_output = aggregated
 
 class LibVirtManager:
     def __init__(self, name):
@@ -39,28 +60,34 @@ class LibVirtManager:
         self.clean_output()
         self.connection = libvirt.open("lxc:///")
         self.domain = None
+        self.mac = '52:54:00:4d:2b:cd'
+
         self.lxc_create = lxc_create.bake(_tty_in=True, _tty_out=True, _err_to_out=True, _iter=True)
         self.lxc_stop = lxc_stop.bake(_tty_in=True, _tty_out=True, _err_to_out=True, _iter=True)
         self.lxc_destroy = lxc_destroy.bake(_tty_in=True, _tty_out=True, _err_to_out=True, _iter=True)
         self.lxc_list = lxc_list.bake(_tty_in=True, _tty_out=True, _err_to_out=True, _iter=True)
         self.ping = ping.bake(_tty_in=True, _tty_out=True, _err_to_out=True)
         self.ssh = ssh.bake(_tty_in=True, _tty_out=True, _err_to_out=True, _iter=True)
+        self.arp = arp.bake("-an", _tty_in=True, _tty_out=True, _err_to_out=True, _iter=True)
 
-    def ssh_interact(self, char, stdin):
-        global aggregated
-        sys.stdout.write(char.encode())
-        aggregated += char
-        if aggregated.endswith("password: "):
-            stdin.put("ubuntu\n")
-        if (char == '\n'):
-            self.out(aggregated)
-            aggregated = ''
+    def find_machine_ip(self):
+        ips = self.arp().split('\n')
+        for ip in ips:
+            if self.mac in ip:
+                match = re.match(r'.*\((?P<ip>(?:\d+[.]?)+)\).*', ip)
+                if not match:
+                    return None
+                return match.groupdict()['ip']
+        return None
 
     def log(self, message, message_type="text"):
-        self.output.append({
+        global output
+
+        output.append({
             'type': message_type,
             'message': message
         })
+
         color =''
         if message_type == 'cmd':
             color = Fore.YELLOW + Style.BRIGHT
@@ -76,7 +103,8 @@ class LibVirtManager:
         self.log('', message_type='br')
 
     def clean_output(self):
-        self.output = []
+        global output
+        output = []
 
     def cleanup(self):
         self.destroy()
@@ -88,27 +116,23 @@ class LibVirtManager:
         xml_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'libvirt.xml'))
         with open(xml_path, 'r') as xml:
             return xml.read() % {
-                "name": self.name
+                "name": self.name,
+                "mac": self.mac
             }
 
     def create(self):
         self.destroy()
-        self.add_vm_to_dhclient()
 
-        import ipdb;ipdb.set_trace()
-        create_cmd = 'sudo lxc-create -t ubuntu -n %s' % self.name
+        create_cmd = 'lxc-create -t ubuntu -n %s' % self.name
         self.cmd(create_cmd)
-        os.system(create_cmd)
-        #for line in self.lxc_create(t="ubuntu", n=self.name):
-            #self.out(line)
+        for line in self.lxc_create('-t', 'ubuntu', '-n', self.name, '--', '-S', '/root/.ssh/id_rsa.pub'):
+            self.out(line)
 
         self.domain = self.connection.defineXML(self.get_definition())
         self.domain.create()
 
         if not self.wait_for_vm_to_boot():
             raise ValueError("VM not booted in time")
-
-        self.add_key()
 
     def destroy(self):
         try:
@@ -122,50 +146,40 @@ class LibVirtManager:
             self.domain.destroy()
 
         if self.name in self.lxc_list():
-            stop_cmd = 'sudo lxc-stop -n %s' % self.name
+            stop_cmd = 'lxc-stop -n %s' % self.name
             self.cmd(stop_cmd)
-            os.system(stop_cmd)
-            #for line in self.lxc_stop(n=self.name):
-                #self.out(line)
-            destroy_cmd = 'sudo lxc-destroy -n %s -f' % self.name
+            for line in self.lxc_stop(n=self.name):
+                self.out(line)
+            destroy_cmd = 'lxc-destroy -n %s -f' % self.name
             self.cmd(destroy_cmd)
-            #for line in self.lxc_destroy(n=self.name, f=True):
-                #self.out(line)
-
-        self.remove_vm_from_dhclient()
+            for line in self.lxc_destroy(n=self.name, f=True):
+                self.out(line)
 
     def wait_for_vm_to_boot(self):
-        tries = 10
+        tries = 30
 
-        self.cmd('waiting for vm to boot...')
+        self.cmd('finding vm ip address...')
+        for i in range(tries):
+            ip = self.find_machine_ip()
+            if ip is None:
+                time.sleep(1)
+            else:
+                break
+
+        if ip is None:
+            return False
+
+        self.ip = ip
+        self.cmd('ip address found at {0}! waiting for vm to boot...'.format(ip))
+
         for i in range(tries):
             try:
-                self.ping("-c", "1", "%s." % self.name)
+                self.ping("-c", "1", self.ip)
                 return True
             except:
                 continue
 
         return False
-
-    def add_vm_to_dhclient(self):
-        self.update_dhclient(include_vm=True)
-
-    def remove_vm_from_dhclient(self):
-        self.update_dhclient(include_vm=False)
-
-    def update_dhclient(self, include_vm):
-        self.cmd('Removing %s from /etc/dhclient.conf' % self.name)
-        with open('/etc/dhclient.conf', 'r') as dhc:
-            content = dhc.readlines()
-
-        result = [line for line in content if not self.name in line]
-
-        if include_vm:
-            self.cmd('Included %s in /etc/dhclient.conf' % self.name)
-            result.append('send host-name "%s";' % self.name)
-
-        with open('/etc/dhclient.conf', 'w') as dhc:
-            dhc.write('\n'.join(result))
 
     @property
     def config(self):
@@ -177,20 +191,12 @@ class LibVirtManager:
         if cwd:
             command = 'cd ~/skink-build && %s' % command
 
-        p = ssh("ubuntu@%s." % self.name, command, _out=self.ssh_interact, _out_bufsize=0, _tty_in=True, _tty_out=True)
-        p.wait()
-
-        #for line in self.ssh("ubuntu@%s." % self.name, command):
-            #self.out(line)
-
-    def add_key(self):
-        self.cmd('ssh_copy_id ubuntu@%s.' % self.name)
-        p = ssh_copy_id("ubuntu@%s." % self.name, _out=self.ssh_interact, _out_bufsize=0, _tty_in=True)
+        p = ssh('-t', '-o', 'UserKnownHostsFile=/dev/null', '-o', 'StrictHostKeyChecking=no', 'ubuntu@%s' % self.ip, command, _out=ssh_interact, _out_bufsize=0, _tty_in=True)
         p.wait()
 
     def clone_repository(self):
         self.cmd('Cloning repository...')
-        self.run_command_in_vm('sudo aptitude install -y git-core', cwd=False)
+        self.run_command_in_vm('sudo apt-get install -y aptitude git-core', cwd=False)
         self.run_command_in_vm('git clone https://github.com/heynemann/skink.vnext.git ~/skink-build', cwd=False)
 
     def provision(self):
@@ -211,7 +217,7 @@ class LibVirtManager:
 
 
 if __name__ == '__main__':
-    vm = LibVirtManager(name="test")
+    vm = LibVirtManager(name="lxctest")
     try:
         vm.bootstrap()
         vm.create()

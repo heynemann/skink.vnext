@@ -17,8 +17,8 @@
       <target dir="/" />
     </filesystem>
     <interface type="network">
-      <mac address='52:54:00:4d:2b:cd'/>
-      <source network="default"/>
+      <mac address="%(mac)s" />
+      <source network="default" />
     </interface>
     <console type="pty" />
   </devices>
