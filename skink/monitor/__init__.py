@@ -44,7 +44,8 @@ class ProjectsMonitor(object):
 
     def create_build(self, project):
         path = "%s/.skink.yaml" % project.dir_repo
-        Config.create_from_file(path)
+        config  = Config.create_from_file(path)
+        
 
     def process_arguments(self):
         description = 'Skink v.%s web interface.' % version
