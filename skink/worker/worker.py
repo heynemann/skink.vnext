@@ -60,11 +60,11 @@ class Worker:
         try:
             vm = VM.create()
             vm.start()
-            PythonBoxType().provision(vm.run_command)
             vm.snapshot()
 
             while True:
                 logging.info('Building...')
+                PythonBoxType().provision(vm.run_command)
 
                 vm.run_command('git clone {0} ~/skink-build'.format(build_item['repo']))
 
