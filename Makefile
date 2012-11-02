@@ -19,8 +19,8 @@ web: dev watch
 ci-test:
 	@nosetests -s --with-coverage --cover-erase --cover-inclusive --cover-package=skink tests/
 
-libvirt:
-	@sudo PYTHONPATH=${PYTHONPATH}:.:/usr/lib/python2.7/dist-packages:${VIRTUALENVWRAPPER_LOG_DIR}/skink/lib/python2.7/site-packages python skink/worker/vm/libvirt_manager.py
+worker:
+	@sudo PYTHONPATH=${PYTHONPATH}:.:/usr/lib/python2.7/dist-packages:${VIRTUALENVWRAPPER_LOG_DIR}/skink/lib/python2.7/site-packages python skink/worker/worker.py -vv
 
 kill_redis:
 	@ps aux | awk '(/redis-server/ && $$0 !~ /awk/){ system("kill -9 "$$2) }'

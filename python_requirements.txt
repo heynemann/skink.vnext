@@ -11,3 +11,4 @@ pyyaml
 mock
 redis
 requests>=0.14.1
+deego>=0.1.0

@@ -26,9 +26,13 @@ from skink.worker import BoxType
 
 class PythonBoxType(BoxType):
     def __init__(self):
-        install = "sudo apt-get install python python-pip -y"
+        install = "sudo apt-get install python python-pip python-dev -y"
         name = "python"
         super(PythonBoxType, self).__init__(name, install)
+
+    def provision(self, run):
+        super(PythonBoxType, self).provision(run)
+        run(self.install)
 
 
 if __name__ == '__main__':

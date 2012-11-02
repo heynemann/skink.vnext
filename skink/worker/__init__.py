@@ -47,4 +47,8 @@ class BoxType(object):
         self.name = name
         self.install = install
 
+    def provision(self, run):
+        run('sudo apt-get update')
+        run('sudo apt-get install make git-core -y')
+
 
