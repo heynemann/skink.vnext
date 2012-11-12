@@ -4,7 +4,6 @@ from skink.worker import BoxType
 from skink.worker.box_types import PythonBoxType
 
 
-
 class PythonBoxTypeTestCase(unittest.TestCase):
     def test_is_a_box_type(self):
         self.assertTrue(issubclass(PythonBoxType, BoxType))
@@ -13,5 +12,5 @@ class PythonBoxTypeTestCase(unittest.TestCase):
         self.assertEqual("python", PythonBoxType().name)
 
     def test_install(self):
-        install = "sudo apt-get install python python-pip -y"
+        install = "sudo apt-get install python python-pip python-dev -y"
         self.assertEqual(install, PythonBoxType().install)
